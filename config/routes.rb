@@ -1,3 +1,6 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  get 'tetris/index'
+  get 'tetris/select_mode'
+  get 'tetris/operate_mode'  
+  root "tetris#index"
 end
