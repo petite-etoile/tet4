@@ -1,11 +1,70 @@
 // Place all the styles related to the tetris controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+$cell-size: 30px;
+$grid-width: $cell-size * 10;
+
 body{
     padding-top:80px;
 }
 
 .space{
     height:30px;
+}
+
+.grid-wrapper{
+    height:auto;
+    width:$grid-width;
+    margin-left:auto;
+    margin-right:auto;
+    // background-color: black;
+}
+
+
+.cell{
+    height: $cell-size;
+    width: $cell-size;
+    float: left;
+    border: solid #555 2px;
+}
+
+
+.empty{
+    background-color: #000;
+}
+
+
+.full{
+    background-color: #888;
+}
+
+.T{
+    background-color: purple;   
+}
+
+.S{
+    background-color: greenyellow;   
+}
+.Z{
+    background-color: red;   
+}
+.O{
+    background-color: yellow;   
+}
+.L{
+    background-color: orange;   
+}
+.J{
+    background-color: blue;   
+}
+.I{
+    background-color: cyan;   
+}
+
+
+
+.row{
+    clear: both;
 }
 

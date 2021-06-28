@@ -23,3 +23,20 @@ Things you may want to cover:
 
 * ...
 # tetris4ren
+
+# 参考
+
+* テトリスの回転ルール
+
+
+https://lets-csharp.com/tetris-srs/
+
+https://tetrisch.github.io/main/srs.html
+
+* JSXの中でfor文を使う
+
+https://qiita.com/ryuusan/items/900302fb307272acd122
+
+* 4列RENの繋がりかた
+
+https://tetrisopener.wicurio.com/index.php?4列RENの消し方
