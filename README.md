@@ -40,3 +40,11 @@ https://qiita.com/ryuusan/items/900302fb307272acd122
 * 4列RENの繋がりかた
 
 https://tetrisopener.wicurio.com/index.php?4列RENの消し方
+
+* キーコード
+
+https://web-designer.cman.jp/javascript_ref/keyboard/keycode/
+
+* JSのforEachは最終手段
+
+https://qiita.com/diescake/items/70d9b0cbd4e3d5cc6fce#foreach--find
