@@ -190,6 +190,9 @@ class Tetris{
 
     //左回転
     spin_left(){
+        if(this.active_mino_type == "O"){
+            return;
+        }
         this.remove_mino_from_grid();
         console.log(this.active_mino_rotate_status)
         this.active_mino_rotate_status = (this.active_mino_rotate_status + 4 - 1) % 4;
@@ -202,6 +205,9 @@ class Tetris{
 
     //右回転
     spin_right(){
+        if(this.active_mino_type == "O"){
+            return;
+        }
         this.remove_mino_from_grid();
         this.active_mino_rotate_status = (this.active_mino_rotate_status + 1) % 4;
         if(this.is_conflicting()){
@@ -238,14 +244,21 @@ class Tetris{
 
     //1マス下に動かす
     move_down(){
-        this.remove_mino_from_grid() 
-
+        this.remove_mino_from_grid()  
         this.active_mino_position_y ++
+
+        let is_drop = false;
         if(this.is_conflicting()){
             this.active_mino_position_y --
+            is_drop = true;
         }
-        this.add_mino_to_grid()
 
+        console.log(is_drop)
+        
+        this.add_mino_to_grid()
+        if(is_drop){
+            this.drop();
+        }
         console.log(this.active_mino_position_y)
     }
 
@@ -263,7 +276,7 @@ class Tetris{
         }
 
         this.active_mino_position_y = max_y;
-        
+        console.log(max_y);
         this.add_mino_to_grid();
         this.drop()
 
@@ -271,13 +284,74 @@ class Tetris{
 
     //ミノをドロップ(確定)
     drop(){
-        //もしラインが消えなかったらゲームオーバー
+        //各行の, 埋まった/埋まってない
+        let completed_info = this.get_completed_lines_info();
+        
         //ラインが消えたら, 描画する. 
-        //ラインを消す処理もする
+        for(let h=0; h<this.GRID_HEIGHT; h++){
+            if(completed_info[h]){
+                for(let w=0; w<this.GRID_WIDTH; w++){
+                    this.grid_info[h][w] = "completed";
+                }
+            }
+        }
+
+
+
+        //ラインを消す処理もする そのときに, 右の列の色も戻す
+        let completed_lines_cnt = 0
+        for(let h=this.GRID_HEIGHT-1; h>=0; h--){
+            if(completed_info[h]){
+                completed_lines_cnt++;
+            }else{
+                if(completed_lines_cnt>0){
+                    for(let w=0; w<this.GRID_WIDTH; w++){
+                        this.grid_info[h+completed_lines_cnt][w] = this.grid_info[h][w];
+                        if(w<4){
+                            this.grid_info[h][w] = "empty";
+                        }else{
+                            this.grid_info[h][w] = "full";
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+        //もしラインが消えなかったらゲームオーバー
+        if(completed_lines_cnt == 0){
+            console.log("GAME OVER");
+        }
+
+
         //ラインが消える描画をしたら,  そのあとupdate_minoで操作するミノを更新する.
         this.update_mino()
     }
+
+    is_completed_line(h){
+        let is_completed = true;
+        for(let w=0; w<this.GRID_WIDTH; w++){
+            if(this.grid_info[h][w] == "empty"){
+                is_completed = false;
+                break;
+            }
+        }
+        return is_completed
+    }
+
+    get_completed_lines_info(){
+        let is_completed_info = Array(this.GRID_HEIGHT)
+        is_completed_info.fill(0)
+        for(let h=0; h<this.GRID_HEIGHT; h++){
+            if(this.is_completed_line(h)){
+                is_completed_info[h] = true;
+            }
+        }
+        return is_completed_info;
+    }
     
+
     get_key(h,w){
         return h.toString() + w.toString() + this.grid_info[h][w];
     }
