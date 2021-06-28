@@ -2,20 +2,22 @@ import React from "react"
 import ReactDOM from "react-dom"
 import PropTypes from "prop-types"
 
-class Cell extends React.Component{
-    class = "cell ";
-    key = ""
-    constructor(props){
-        super();
-        this.class += props.class;
-        this.key = props.item
-    }
+//クラスコンポーネントだとうまくいかなかった。。。多分, setStateとか使わないと更新されないみたいな話だと思うけど, 今は動くのを優先で後回し。
+// class Cell extends React.Component{
+//     class = "cell ";
+//     constructor(props){
+//         super();
+//         this.class += props.class;
+//     }
 
-    render(){
-        let res = <div className = {this.class} key = {this.key}> </div>;
-        // console.log(res)
-        return res
-    }
+//     render(){
+//         let res = <div className = {this.class}> </div>;
+//         return res
+//     }
+// }
+
+function Cell(props){
+    return <div className = {"cell " + props.class}> </div>;
 }
 
 
@@ -166,7 +168,7 @@ class Tetris{
     }
     
     get_key(h,w){
-        return h.toString + w.toString + this.grid_info[h][w];
+        return h.toString() + w.toString() + this.grid_info[h][w];
     }
 }
 
@@ -178,25 +180,26 @@ class Tetris{
 
 
 let active = false; //ミノを動かしてる間, 他の入力を受け付けない
-let Tet = new Tetris();
+let tetris = new Tetris();
 
 
 
 let cnt = 0
 let render_grid = function(){
     let dom = document.getElementById('grid');
-    // console.log("AAA")
-    // console.log(Tet.grid_info)
     let el=(
-        <React.Fragment key="hoge">
         <div className="grid-wrapper" key={cnt}>
             {
-                Tet.grid_info.map((row,idx1)=>{
+                tetris.grid_info.map((row,idx1)=>{
                     return(
-                        <div className="row" key={idx1}>
+                        <div className="row" key={idx1.toString() + " "}>
                             {
                                 row.map((cell_info,idx2)=>{
-                                    return < Cell class={cell_info} item={idx1.toString() + " " + idx2.toString()} />
+                                    return (
+                                        <React.Fragment key={tetris.get_key(idx1, idx2)}>
+                                            <Cell class={cell_info}/>
+                                        </React.Fragment>
+                                    )
                                 })
                             }
                         </div>
@@ -204,7 +207,6 @@ let render_grid = function(){
                 })
             }
         </div>
-        </React.Fragment>
     );
     console.log(el)
     ReactDOM.render(el, dom);
@@ -228,7 +230,7 @@ document.onkeydown = event =>{
     if( [left_code, up_code, right_code, down_code].includes(event.keyCode) ){
         console.log(event.keyCode)
         if(down_code == event.keyCode){
-            Tet.move_down();
+            tetris.move_down();
         }
         render_grid();
     }
