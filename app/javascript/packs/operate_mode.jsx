@@ -22,10 +22,9 @@ function Cell(props){
 
 
 class Tetris{
-    now_mino = ""
     next_array = []
     mino_array = ["I","O","Z","S","J","L","T"]
-    hold = ""
+    hold_mino_type = ""
     holdable = true
 
     deleting = false //ラインを消した時に, 1秒くらい操作不能にする. エフェクトを加えたりするので. 
@@ -52,18 +51,11 @@ class Tetris{
     }
     
     constructor(){
-
-        this.lengthen_next_array()
-        console.log(this.next_array)
-        console.log(this.active_mino_type)
-
+        this.next_array = []
         this.init_grid_info()
         this.update_mino()
-        
-
-
-        
-        // next_array = this.shuffled_mino_array();
+        this.holdable = true
+        // this.hold_mino_type = "" //これがなかったらどうなるか確かめる.
     }
 
 
@@ -123,29 +115,26 @@ class Tetris{
     }
     
 
-    hold(){
-        
-    }
 
     //操作するミノを更新する
     update_mino(){
-        this.active_mino_position_x = 0 
-        this.active_mino_position_y = 0 
-        this.active_mino_rotate_status = 0 
-
-        
-        
-        if(this.next_array.length < 4){
+        //ネクストを6以上にする
+        if(this.next_array.length < 6){
             this.lengthen_next_array()   
         }
 
-
         this.active_mino_type = this.next_array.shift()
+
         if(this.active_mino_type=="I"){
             this.active_mino_size = 4
+            this.active_mino_position_x = 0 
         }else{
             this.active_mino_size = 3
+            this.active_mino_position_x = 1
         }
+        this.active_mino_position_y = 0 
+        this.active_mino_rotate_status = 0 
+
         this.add_mino_to_grid()
         
     }
@@ -247,18 +236,11 @@ class Tetris{
         this.remove_mino_from_grid()  
         this.active_mino_position_y ++
 
-        let is_drop = false;
         if(this.is_conflicting()){
             this.active_mino_position_y --
-            is_drop = true;
         }
 
-        console.log(is_drop)
-        
         this.add_mino_to_grid()
-        if(is_drop){
-            this.drop();
-        }
         console.log(this.active_mino_position_y)
     }
 
@@ -278,12 +260,14 @@ class Tetris{
         this.active_mino_position_y = max_y;
         console.log(max_y);
         this.add_mino_to_grid();
-        this.drop()
-
+        this.drop();
     }
 
     //ミノをドロップ(確定)
     drop(){
+        //ホールド可にする
+        this.holdable = true;
+
         //各行の, 埋まった/埋まってない
         let completed_info = this.get_completed_lines_info();
         
@@ -350,10 +334,80 @@ class Tetris{
         }
         return is_completed_info;
     }
-    
 
+
+    //ホールド
+    hold(){
+        if(!this.holdable){
+            return;
+        }
+        this.holdable = false;
+        this.remove_mino_from_grid();
+        if(this.hold_mino_type == ""){
+            this.hold_mino_type = this.active_mino_type;
+            this.update_mino();
+        }else{
+            [this.hold_mino_type, this.active_mino_type] = [this.active_mino_type, this.hold_mino_type];
+            if(this.active_mino_type=="I"){
+                this.active_mino_size = 4
+                this.active_mino_position_x = 0 
+            }else{
+                this.active_mino_size = 3
+                this.active_mino_position_x = 1
+            }
+            this.active_mino_position_y = 0 
+            this.active_mino_rotate_status = 0 
+            this.add_mino_to_grid();
+        }
+    }
+    
+    
     get_key(h,w){
         return h.toString() + w.toString() + this.grid_info[h][w];
+    }
+
+    get_mino_info(mino_type){
+        if(mino_type == "") return [];
+
+        let height = (mino_type == "I")? 1 : 2;
+        let width;
+        if(mino_type == "I"){
+            width = 4;
+        }else if(mino_type == "O"){
+            width = 2;
+        }else{
+            width = 3;
+        }
+
+        let mino_info = [];
+        for(let h=0; h<height; h++){
+            let row = []
+            for(let w=0; w<width; w++){
+                row.push("null-cell")
+            }
+            mino_info.push(row)
+        }
+
+        this.mino_shapes[mino_type].map(([dy,dx]) => {
+            let y = (mino_type == "I")? dy-1 : dy;
+            let x = dx;
+            mino_info[y][x] = "hold-cell " + mino_type
+        });
+
+        return mino_info;
+    }
+
+    get_hold_info(){
+        let hold_info = this.get_mino_info(this.hold_mino_type);
+        return hold_info;
+    }
+
+    get_next_info(){
+        let next_info = [];
+        for(let i=0; i<6; i++){
+            next_info.push(this.get_mino_info(this.next_array[i]));
+        }
+        return next_info;
     }
 }
 
@@ -373,7 +427,7 @@ let cnt = 0
 let render_grid = function(){
     let dom = document.getElementById('grid');
     let el=(
-        <div className="grid-wrapper" key={cnt}>
+        <div className="grid" key={cnt}>
             {
                 tetris.grid_info.map((row,idx1)=>{
                     return(
@@ -398,10 +452,36 @@ let render_grid = function(){
 }
 
 
+let render_hold = function(){
+    let dom = document.getElementById('hold');
+    let el=(
+        <div className="hold" key={cnt}>
+            {
 
+                tetris.get_hold_info().map((row,idx1)=>{
+                    return(
+                        <div className="row" key={idx1.toString()}>
+                            {
+                                row.map((cell_info,idx2)=>{
+                                    return (
+                                        <div className={cell_info} key={tetris.get_key(idx1, idx2)}>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                    )
+                })
+            }
+        </div>
+    );
+    console.log(el)
+    ReactDOM.render(el, dom);
+}
 
 //初期描画
 render_grid();
+render_hold();
 
 
 
@@ -409,27 +489,38 @@ render_grid();
 document.onkeydown = event =>{
     const A_code = 65;
     const D_code = 68;
+    const S_code = 83;
+    const W_code = 87;
 
     const left_code = 37;
     const up_code = 38;
     const right_code = 39;
     const down_code = 40;
 
-    if( [A_code, D_code, left_code, up_code, right_code, down_code].includes(event.keyCode) ){
+    const space_code = 32;
+
+
+
+    if( [A_code, D_code, S_code, W_code, left_code, up_code, right_code, down_code, space_code].includes(event.keyCode) ){
         console.log(event.keyCode)
         if(down_code == event.keyCode){
-            tetris.move_down();
         }else if(left_code == event.keyCode){
-            tetris.move_left();
-        }else if(right_code == event.keyCode){
-            tetris.move_right();
-        }else if(up_code == event.keyCode) {
-            tetris.hard_drop();
-        }else if(A_code == event.keyCode){
             tetris.spin_left();
-        }else if(D_code == event.keyCode){
+        }else if(right_code == event.keyCode){
             tetris.spin_right();
+        }else if(up_code == event.keyCode) {
+        }else if(A_code == event.keyCode){
+            tetris.move_left();
+        }else if(D_code == event.keyCode){
+            tetris.move_right();
+        }else if(S_code == event.keyCode){
+            tetris.move_down();
+        }else if(W_code == event.keyCode){
+            tetris.hard_drop();
+        }else if(space_code == event.keyCode){
+            tetris.hold();
         }
         render_grid();
+        render_hold();
     }
 };
