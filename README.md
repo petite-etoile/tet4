@@ -48,3 +48,7 @@ https://web-designer.cman.jp/javascript_ref/keyboard/keycode/
 * JSのforEachは最終手段
 
 https://qiita.com/diescake/items/70d9b0cbd4e3d5cc6fce
+
+* bootstrap
+
+https://getbootstrap.jp/docs/4.2/content/tables/

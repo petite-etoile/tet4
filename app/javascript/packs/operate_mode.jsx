@@ -58,10 +58,7 @@ class Tetris{
     }
 
     initialize(){
-        console.log("AA")
-        console.log(this.next_array)
         this.next_array = []
-        console.log(this.next_array)
         this.init_grid_info()
         this.update_mino()
         this.holdable = true
@@ -631,7 +628,7 @@ let render_REN_cnt = function(){
     let dom = document.querySelector("#ren");
     let el = (
         <div className="REN">
-            {tetris.REN_cnt} REN!
+            <div style={{color:"red", float:"left", paddingLeft:"30px"}}>{tetris.REN_cnt}</div> REN!!
         </div>
     )
     ReactDOM.render(el, dom);
@@ -640,7 +637,7 @@ let render_REN_cnt = function(){
 let render_retry_button = function(){
     let dom = document.querySelector("#retry")
     console.log(tetris.next_array)
-    let el = (<button onClick={render_retry_button}>Retry!</button>)
+    let el = (<button className="btn btn-warning btn-lg btn-block border border-dark" onClick={render_retry_button}>Retry!</button>)
     ReactDOM.render(el, dom)
     tetris.initialize();
     render_grid();
