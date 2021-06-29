@@ -43,8 +43,8 @@ class Tetris{
     mino_shapes = {
         "O":[[0,0], [0,1], [1,0], [1,1]],
         "T":[[0,1], [1,0], [1,1], [1,2]],
-        "Z":[[0,1], [0,2], [1,0], [1,1]],
-        "S":[[0,0], [0,1], [1,1], [1,2]],
+        "S":[[0,1], [0,2], [1,0], [1,1]],
+        "Z":[[0,0], [0,1], [1,1], [1,2]],
         "L":[[0,2], [1,0], [1,1], [1,2]],
         "J":[[0,0], [1,0], [1,1], [1,2]],
         "I":[[1,0], [1,1], [1,2], [1,3]]
@@ -70,7 +70,7 @@ class Tetris{
         console.log(this.next_array)
     }
     
-    //minoのシャッフル(NEXT用)
+    //minoのシャッフル(NEXT用)　
     shuffle_mino_array(){
         for(let idx1=this.mino_array.length-1; idx1>0; idx1--){
             let idx2 = Math.floor( Math.random(idx1) * (idx1+1) );
@@ -83,7 +83,7 @@ class Tetris{
         for(let h=0; h<this.GRID_HEIGHT; h++){
             let row = [];
             for(let w=0; w<this.GRID_WIDTH; w++){
-                if(w < 4){
+                if( 3 <= w && w < 7){
                     row.push("empty");
                 }else{
                     row.push("full");
@@ -91,6 +91,18 @@ class Tetris{
             }
             this.grid_info.push(row);
         }
+
+        //fordebug
+        this.next_array[0] = "T";
+        this.next_array[1] = "S";
+
+        //種
+        
+        // let seed = [[1,2], [1,3], [2,3]] 
+        let seed = [[-2,0], [0,1], [2,1] , [0,2], [1,2], [1,3], [2,2], [0,3], [2,3], [-2,3], [-1,3], [0,3], [1,3]] 
+        seed.map(([dy,dx]) => {
+            this.grid_info[17+dy][3+dx] = "full"
+        })
     }
 
     //ミノの形(座標)を取得
@@ -123,11 +135,10 @@ class Tetris{
 
         if(this.active_mino_type=="I"){
             this.active_mino_size = 4
-            this.active_mino_position_x = 0 
         }else{
             this.active_mino_size = 3
-            this.active_mino_position_x = 1
         }
+        this.active_mino_position_x = 3
         this.active_mino_position_y = 0 
         this.active_mino_rotate_status = 0 
 
@@ -156,13 +167,17 @@ class Tetris{
     //ミノ同士(あるいは壁との)衝突を検出
     is_conflicting(){
         let conflicting = false;
-        this.get_mino_shape().find( ([dy,dx]) =>{
+        let mino_shape = this.get_mino_shape();
+        for(let idx=0; idx<mino_shape.length; idx++){
+            let dy,dx;
+            [dy, dx] = mino_shape[idx];
             let y = this.active_mino_position_y + dy;
             let x = this.active_mino_position_x + dx;
             if(!this.is_inside(y,x) || this.grid_info[y][x] != "empty"){
                 conflicting = true;
+                break;
             }
-        })
+        }
         return conflicting;
     }
 
@@ -171,18 +186,90 @@ class Tetris{
         return 0<=y && y<this.GRID_HEIGHT && 0<=x && x<this.GRID_WIDTH;
     }
 
+    get_spin_pattern(before_rotate_status, spin_type){
+        let spin_patterns = [];
+        
+        if(spin_type == "left"){
+            spin_patterns = [
+                [[0,0], [0,1], [-1, 1], [2,0], [2,1]],
+                [[0,0], [0,1], [1,1], [-2,0],[-2,1]],
+                [[0,0], [0,-1], [-1,-1], [2,0], [2,-1]],
+                [[0,0], [0,-1], [1,-1], [-2,0], [-2,-1]]
+            ]
+        }else if(spin_type == "right"){
+            spin_patterns = [ 
+                [[0,0], [0,-1], [-1,-1], [2,0], [2,-1]],
+                [[0,0], [0,1], [1,1], [-2,0],[-2,1]],
+                [[0,0], [0,1], [-1, 1], [2,0], [2,1]],
+                [[0,0], [0,-1], [1,-1], [-2,0], [-2,-1]] 
+            ]
+
+        }else{
+            alert("エラー: spin_typeが正しくありません")
+        }
+        return spin_patterns[before_rotate_status]
+    }
+
+    super_rotation_for_not_I(before_rotate_status, spin_type){
+        let spin_pattern = this.get_spin_pattern(before_rotate_status, spin_type)
+
+
+        let before_position_x = this.active_mino_position_x;
+        let before_position_y = this.active_mino_position_y;
+
+        let conflicting_all_pattern = true;
+
+        for(let idx=0; idx<spin_pattern.length; idx++){
+            let dy,dx;
+            [dy, dx] = spin_pattern[idx];
+            console.log(spin_pattern[idx])
+            console.log([dy,dy])
+            this.active_mino_position_y = before_position_y + dy;
+            this.active_mino_position_x = before_position_x + dx;
+            console.log("y,x:" +  [this.active_mino_position_y, this.active_mino_position_x])
+            console.log(this.is_conflicting())
+            if(! this.is_conflicting()){
+                conflicting_all_pattern = false;
+                console.log("idx:" + idx);
+                console.log()
+                break;
+            }
+        }
+
+        if(conflicting_all_pattern){
+            this.active_mino_rotate_status = before_rotate_status;
+            this.active_mino_position_x = before_position_x;
+            this.active_mino_position_y = before_position_y;
+        }
+
+    }
+
+    super_rotation_for_I(before_rotate_status){
+
+    }
+
     //左回転
     spin_left(){
         if(this.active_mino_type == "O"){
             return;
         }
+
         this.remove_mino_from_grid();
-        console.log(this.active_mino_rotate_status)
+        
+        let before_rotate_status = this.active_mino_rotate_status;
+        
+        
         this.active_mino_rotate_status = (this.active_mino_rotate_status + 4 - 1) % 4;
-        if(this.is_conflicting()){
-            this.active_mino_rotate_status = (this.active_mino_rotate_status + 1) % 4
+
+        //5パターン試して, 最初の可能なものを採用. 可能なものがない場合は戻す
+        if(this.active_mino_type == "I"){
+            this.super_rotation_for_I()
+        }else{
+            this.super_rotation_for_not_I(before_rotate_status, "left")
         }
-        console.log(this.active_mino_rotate_status)
+        
+
+        
         this.add_mino_to_grid();
     }
 
@@ -191,10 +278,18 @@ class Tetris{
         if(this.active_mino_type == "O"){
             return;
         }
+
         this.remove_mino_from_grid();
+
+        let before_rotate_status = this.active_mino_rotate_status;
+
         this.active_mino_rotate_status = (this.active_mino_rotate_status + 1) % 4;
-        if(this.is_conflicting()){
-            this.active_mino_rotate_status = (this.active_mino_rotate_status + 4 - 1) % 4;
+
+        //5パターン試して, 最初の可能なものを採用. 可能なものがない場合は戻す
+        if(this.active_mino_type == "I"){
+            this.super_rotation_for_I()
+        }else{
+            this.super_rotation_for_not_I(before_rotate_status, "right")
         }
         this.add_mino_to_grid();
     }
@@ -285,7 +380,7 @@ class Tetris{
                 if(completed_lines_cnt>0){
                     for(let w=0; w<this.GRID_WIDTH; w++){
                         this.grid_info[h+completed_lines_cnt][w] = this.grid_info[h][w];
-                        if(w<4){
+                        if(3 <= w && w < 7){
                             this.grid_info[h][w] = "empty";
                         }else{
                             this.grid_info[h][w] = "full";
@@ -307,6 +402,7 @@ class Tetris{
         this.update_mino()
     }
 
+    //h行目が消えたかをbool型で返す
     is_completed_line(h){
         let is_completed = true;
         for(let w=0; w<this.GRID_WIDTH; w++){
@@ -318,6 +414,7 @@ class Tetris{
         return is_completed
     }
 
+    //どの行が消えたのかを取得する
     get_completed_lines_info(){
         let is_completed_info = Array(this.GRID_HEIGHT)
         is_completed_info.fill(0)
@@ -343,11 +440,10 @@ class Tetris{
             [this.hold_mino_type, this.active_mino_type] = [this.active_mino_type, this.hold_mino_type];
             if(this.active_mino_type=="I"){
                 this.active_mino_size = 4
-                this.active_mino_position_x = 0 
             }else{
                 this.active_mino_size = 3
-                this.active_mino_position_x = 1
             }
+            this.active_mino_position_x = 3
             this.active_mino_position_y = 0 
             this.active_mino_rotate_status = 0 
             this.add_mino_to_grid();
