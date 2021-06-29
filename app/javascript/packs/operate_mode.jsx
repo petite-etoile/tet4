@@ -58,6 +58,54 @@ class Tetris{
         // this.hold_mino_type = "" //これがなかったらどうなるか確かめる.
     }
 
+    Ispin_grid_for_debug(){
+        for(let h=0; h<this.GRID_HEIGHT; h++){
+            let row = [];
+            for(let w=0; w<this.GRID_WIDTH; w++){
+                if( 3 <= w && w < 7){
+                    row.push("empty");
+                }else{
+                    row.push("full");
+                }
+            }
+            this.grid_info.push(row);
+        }
+
+
+        this.grid_info[3][3] = "full";
+        for(let h=0; h<=4; h++){
+            this.grid_info[h][7] = "empty";
+        }
+        for(let h=5; h<=6; h++){
+            for(let w=4; w<=6; w++){
+                this.grid_info[h][w] = "full";
+            }
+        }
+        for(let h=8; h<=10; h++){
+            for(let w=3; w<=5; w++){
+                this.grid_info[h][w] = "full";
+            }
+        }
+        for(let h=12; h<=14; h++){
+            for(let w=3; w<=6; w++){
+                this.grid_info[h][w] = "full";
+            }
+        }
+        for(let h=16; h<=19; h++){
+            for(let w=3; w<=4; w++){
+                this.grid_info[h][w] = "full";
+            }
+        }
+        for(let h=15; h<=19; h++){
+            this.grid_info[h][6] = "full";
+        }
+        for(let h=11; h<=15; h++){
+            this.grid_info[h][2] = "empty";
+        }
+
+
+        this.next_array[0] = "I";
+    }
 
     //NEXTの配列を1巡分長くする
     lengthen_next_array(){
@@ -101,7 +149,7 @@ class Tetris{
         // let seed = [[1,2], [1,3], [2,3]] 
         let seed = [[-2,0], [0,1], [2,1] , [0,2], [1,2], [1,3], [2,2], [0,3], [2,3], [-2,3], [-1,3], [0,3], [1,3]] 
         seed.map(([dy,dx]) => {
-            this.grid_info[17+dy][3+dx] = "full"
+            this.grid_info[17+dy][6-dx] = "full"
         })
     }
 
@@ -186,7 +234,8 @@ class Tetris{
         return 0<=y && y<this.GRID_HEIGHT && 0<=x && x<this.GRID_WIDTH;
     }
 
-    get_spin_pattern(before_rotate_status, spin_type){
+    //回転パターンの列挙(I以外用)
+    get_spin_pattern_for_not_I(before_rotate_status, spin_type){
         let spin_patterns = [];
         
         if(spin_type == "left"){
@@ -210,8 +259,38 @@ class Tetris{
         return spin_patterns[before_rotate_status]
     }
 
-    super_rotation_for_not_I(before_rotate_status, spin_type){
-        let spin_pattern = this.get_spin_pattern(before_rotate_status, spin_type)
+    //回転パターンの列挙(Iミノ用)
+    get_spin_pattern_for_I(before_rotate_status, spin_type){
+        let spin_patterns = [];
+        
+        if(spin_type == "left"){
+            spin_patterns = [
+                [[0,0], [0,-1], [0,2], [-2,-1], [2,1]],
+                [[0,0], [0,2], [0,-1], [-1,-2],[2,-1]],
+                [[0,0], [0,1], [0,-2], [2,1], [-1,-2]],
+                [[0,0], [0,1], [0,-2], [1,-2], [-2,1]]
+            ]
+        }else if(spin_type == "right"){
+            spin_patterns = [ 
+                [[0,0], [0,-2], [0,1], [1,-2], [-2,1]],
+                [[0,0], [0,-1], [0,2], [-2,-1],[1,2]],
+                [[0,0], [0,2], [0,-1], [-1,2], [2,-1]],
+                [[0,0], [0,-2], [0,1], [2,1], [-1,-2]] 
+            ]
+        }else{
+            alert("エラー: spin_typeが正しくありません")
+        }
+        return spin_patterns[before_rotate_status]
+    }
+
+    //SuperRotationSystemで回転を決定
+    super_rotation(before_rotate_status, spin_type){
+        let spin_pattern;
+        if(this.active_mino_type == "I"){
+            spin_pattern = this.get_spin_pattern_for_I(before_rotate_status, spin_type)
+        }else{
+            spin_pattern = this.get_spin_pattern_for_not_I(before_rotate_status, spin_type)
+        }
 
 
         let before_position_x = this.active_mino_position_x;
@@ -244,9 +323,6 @@ class Tetris{
 
     }
 
-    super_rotation_for_I(before_rotate_status){
-
-    }
 
     //左回転
     spin_left(){
@@ -257,19 +333,11 @@ class Tetris{
         this.remove_mino_from_grid();
         
         let before_rotate_status = this.active_mino_rotate_status;
-        
-        
         this.active_mino_rotate_status = (this.active_mino_rotate_status + 4 - 1) % 4;
 
         //5パターン試して, 最初の可能なものを採用. 可能なものがない場合は戻す
-        if(this.active_mino_type == "I"){
-            this.super_rotation_for_I()
-        }else{
-            this.super_rotation_for_not_I(before_rotate_status, "left")
-        }
-        
+        this.super_rotation(before_rotate_status, "left")
 
-        
         this.add_mino_to_grid();
     }
 
@@ -282,15 +350,11 @@ class Tetris{
         this.remove_mino_from_grid();
 
         let before_rotate_status = this.active_mino_rotate_status;
-
         this.active_mino_rotate_status = (this.active_mino_rotate_status + 1) % 4;
 
         //5パターン試して, 最初の可能なものを採用. 可能なものがない場合は戻す
-        if(this.active_mino_type == "I"){
-            this.super_rotation_for_I()
-        }else{
-            this.super_rotation_for_not_I(before_rotate_status, "right")
-        }
+        this.super_rotation(before_rotate_status, "right")
+
         this.add_mino_to_grid();
     }
 
