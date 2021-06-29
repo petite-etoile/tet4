@@ -49,72 +49,31 @@ class Tetris{
         "J":[[0,0], [1,0], [1,1], [1,2]],
         "I":[[1,0], [1,1], [1,2], [1,3]]
     }
+
+    REN_cnt = 0
+    gameover = false;
     
     constructor(){
+        this.initialize()
+    }
+
+    initialize(){
+        console.log("AA")
+        console.log(this.next_array)
         this.next_array = []
+        console.log(this.next_array)
         this.init_grid_info()
         this.update_mino()
         this.holdable = true
-        // this.hold_mino_type = "" //これがなかったらどうなるか確かめる.
-    }
-
-    Ispin_grid_for_debug(){
-        for(let h=0; h<this.GRID_HEIGHT; h++){
-            let row = [];
-            for(let w=0; w<this.GRID_WIDTH; w++){
-                if( 3 <= w && w < 7){
-                    row.push("empty");
-                }else{
-                    row.push("full");
-                }
-            }
-            this.grid_info.push(row);
-        }
-
-
-        this.grid_info[3][3] = "full";
-        for(let h=0; h<=4; h++){
-            this.grid_info[h][7] = "empty";
-        }
-        for(let h=5; h<=6; h++){
-            for(let w=4; w<=6; w++){
-                this.grid_info[h][w] = "full";
-            }
-        }
-        for(let h=8; h<=10; h++){
-            for(let w=3; w<=5; w++){
-                this.grid_info[h][w] = "full";
-            }
-        }
-        for(let h=12; h<=14; h++){
-            for(let w=3; w<=6; w++){
-                this.grid_info[h][w] = "full";
-            }
-        }
-        for(let h=16; h<=19; h++){
-            for(let w=3; w<=4; w++){
-                this.grid_info[h][w] = "full";
-            }
-        }
-        for(let h=15; h<=19; h++){
-            this.grid_info[h][6] = "full";
-        }
-        for(let h=11; h<=15; h++){
-            this.grid_info[h][2] = "empty";
-        }
-
-
-        this.next_array[0] = "I";
+        this.REN_cnt = 0
+        this.hold_mino_type = "" 
+        this.gameover = false;
     }
 
     //NEXTの配列を1巡分長くする
     lengthen_next_array(){
         this.shuffle_mino_array()
-
-        console.log("[before] next_array")
-        console.log(this.next_array)
         this.next_array = this.next_array.concat( this.mino_array )
-        console.log("[after] next_array")
         console.log(this.next_array)
     }
     
@@ -128,6 +87,7 @@ class Tetris{
 
     //grid_infoの初期化
     init_grid_info(){
+        this.grid_info = []
         for(let h=0; h<this.GRID_HEIGHT; h++){
             let row = [];
             for(let w=0; w<this.GRID_WIDTH; w++){
@@ -140,17 +100,28 @@ class Tetris{
             this.grid_info.push(row);
         }
 
-        //fordebug
-        this.next_array[0] = "T";
-        this.next_array[1] = "S";
-
         //種
+        this.set_seed()
+    }
+
+    //タネを設置
+    set_seed(){
+        let seeds = [
+            [[1,2], [1,3], [2,3]],
+            [[2,1], [2,2], [2,3]],
+            [[1,3], [2,2], [2,3]],
+            
+            [[1,1], [1,0], [2,0]],
+            [[2,0], [2,1], [2,2]],
+            [[1,0], [2,1], [2,0]]
+        ]
+        let idx = Math.floor(Math.random() * 6);
+        let seed = seeds[idx]; //タネをランダムに.
         
-        // let seed = [[1,2], [1,3], [2,3]] 
-        let seed = [[-2,0], [0,1], [2,1] , [0,2], [1,2], [1,3], [2,2], [0,3], [2,3], [-2,3], [-1,3], [0,3], [1,3]] 
         seed.map(([dy,dx]) => {
-            this.grid_info[17+dy][6-dx] = "full"
+            this.grid_info[17+dy][3+dx] = "full"
         })
+
     }
 
     //ミノの形(座標)を取得
@@ -172,6 +143,16 @@ class Tetris{
         }
     }
 
+    set_active_mino(){
+        this.active_mino_size = (this.active_mino_type=="I") ? 4 : 3
+        this.active_mino_position_x = (this.active_mino_type=="O") ? 4 : 3
+
+        this.active_mino_position_y = 0 
+        this.active_mino_rotate_status = 0 
+
+        this.add_mino_to_grid()
+    }
+    
     //操作するミノを更新する
     update_mino(){
         //ネクストを常に6以上にする
@@ -181,17 +162,7 @@ class Tetris{
 
         this.active_mino_type = this.next_array.shift()
 
-        if(this.active_mino_type=="I"){
-            this.active_mino_size = 4
-        }else{
-            this.active_mino_size = 3
-        }
-        this.active_mino_position_x = 3
-        this.active_mino_position_y = 0 
-        this.active_mino_rotate_status = 0 
-
-        this.add_mino_to_grid()
-        
+        this.set_active_mino();
     }
 
     //操作対象のミノをgrid_infoに追加
@@ -322,7 +293,6 @@ class Tetris{
         }
 
     }
-
 
     //左回転
     spin_left(){
@@ -458,12 +428,14 @@ class Tetris{
 
         //もしラインが消えなかったらゲームオーバー
         if(completed_lines_cnt == 0){
-            console.log("GAME OVER");
+            this.GAMEOVER();
+        }else{
+            this.REN_cnt++;
+            //ラインが消える描画をしたら,  そのあとupdate_minoで操作するミノを更新する.
+            this.update_mino()
         }
 
 
-        //ラインが消える描画をしたら,  そのあとupdate_minoで操作するミノを更新する.
-        this.update_mino()
     }
 
     //h行目が消えたかをbool型で返す
@@ -502,18 +474,18 @@ class Tetris{
             this.update_mino();
         }else{
             [this.hold_mino_type, this.active_mino_type] = [this.active_mino_type, this.hold_mino_type];
-            if(this.active_mino_type=="I"){
-                this.active_mino_size = 4
-            }else{
-                this.active_mino_size = 3
-            }
-            this.active_mino_position_x = 3
-            this.active_mino_position_y = 0 
-            this.active_mino_rotate_status = 0 
-            this.add_mino_to_grid();
+            this.set_active_mino()
         }
     }
     
+    //GAMEOVERのときに, する処理
+    GAMEOVER(){
+        this.active_mino_type = ""
+        this.gameover = true;
+        console.log("GAME OVER");
+        alert("GAME OVER... 記録:"+this.REN_cnt+"REN")
+    }
+
     //ミノの形を2次元GRID形式で返す
     get_mino_info(mino_type, info_for){
         if(mino_type == "") return [];
@@ -561,18 +533,10 @@ class Tetris{
 }
 
 
-
-
-
-
-
-
-let active = false; //ミノを動かしてる間, 他の入力を受け付けない
 let tetris = new Tetris();
 
+tetris.initialize()
 
-
-let cnt = 0
 let render_grid = function(){
     let dom = document.getElementById('grid');
     let el=(
@@ -599,7 +563,6 @@ let render_grid = function(){
     console.log(el)
     ReactDOM.render(el, dom);
 }
-
 
 let render_hold = function(){
     let dom = document.getElementById('hold');
@@ -664,12 +627,42 @@ let render_next = function(){
     ReactDOM.render(el, dom);
 }
 
+let render_REN_cnt = function(){
+    let dom = document.querySelector("#ren");
+    let el = (
+        <div className="REN">
+            {tetris.REN_cnt} REN!
+        </div>
+    )
+    ReactDOM.render(el, dom);
+}
+
+let render_retry_button = function(){
+    let dom = document.querySelector("#retry")
+    console.log(tetris.next_array)
+    let el = (<button onClick={render_retry_button}>Retry!</button>)
+    ReactDOM.render(el, dom)
+    tetris.initialize();
+    render_grid();
+    render_hold();
+    render_next();
+    render_REN_cnt();
+}
+
+let render_record_form = function(){
+    let dom = document.querySelector("#record-form")
+    console.log(tetris.next_array)
+    let el = (<button onClick={render_retry_button}>Retry!</button>)
+    ReactDOM.render(el, dom)
+    tetris.initialize();
+    render_grid();
+    render_hold();
+    render_next();
+    render_REN_cnt();
+}
+
 //初期描画
-render_grid();
-render_hold();
-render_next();
-
-
+render_retry_button();
 
 //テトリスの操作
 document.onkeydown = event =>{
@@ -684,7 +677,6 @@ document.onkeydown = event =>{
     const down_code = 40;
 
     const space_code = 32;
-
 
 
     if( [A_code, D_code, S_code, W_code, left_code, up_code, right_code, down_code, space_code].includes(event.keyCode) ){
@@ -709,5 +701,11 @@ document.onkeydown = event =>{
         render_grid();
         render_hold();
         render_next();
+        render_REN_cnt();
+        if(gameover){
+
+        }
     }
 };
+
+

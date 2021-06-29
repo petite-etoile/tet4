@@ -3,12 +3,26 @@
 
 <%# <div class="tetris">
 </div> %>
-
+<div id="record-form"> </div>
+<div id="ren"> </div>
 <div class="tetris">
     <div id="hold" class="hold-wrapper">  </div>
     <div id="grid" class="grid-wrapper">  </div>
     <div id="next" class="next-wrapper">  </div>
- 
+</div>
+
+<div id="retry"></div>
+<div class="instruction"> 
+    操作方法<br>
+    W:ハードドロップ<br>
+    A:ミノを左に<br>
+    D:ミノを右に<br>
+    S:ミノを下に<br>
+    スペース:ホールド<br>
+    →:右回転<br>
+    ←:左回転<br>
+
+
 </div>
 
 <%= javascript_pack_tag( "operate_mode") %>
