@@ -78,7 +78,6 @@ class Tetris{
         }
     }
 
-
     //grid_infoの初期化
     init_grid_info(){
         for(let h=0; h<this.GRID_HEIGHT; h++){
@@ -94,7 +93,6 @@ class Tetris{
         }
     }
 
-    
     //ミノの形(座標)を取得
     get_mino_shape(){
         if(this.active_mino_rotate_status == 0){ //そのまま
@@ -113,13 +111,11 @@ class Tetris{
             })
         }
     }
-    
-
 
     //操作するミノを更新する
     update_mino(){
-        //ネクストを6以上にする
-        if(this.next_array.length < 6){
+        //ネクストを常に6以上にする
+        if(this.next_array.length <= 6){
             this.lengthen_next_array()   
         }
 
@@ -138,7 +134,6 @@ class Tetris{
         this.add_mino_to_grid()
         
     }
-
 
     //操作対象のミノをgrid_infoに追加
     add_mino_to_grid(){
@@ -175,7 +170,6 @@ class Tetris{
     is_inside(y,x){
         return 0<=y && y<this.GRID_HEIGHT && 0<=x && x<this.GRID_WIDTH;
     }
-
 
     //左回転
     spin_left(){
@@ -335,7 +329,6 @@ class Tetris{
         return is_completed_info;
     }
 
-
     //ホールド
     hold(){
         if(!this.holdable){
@@ -361,21 +354,15 @@ class Tetris{
         }
     }
     
-    
-    get_key(h,w){
-        return h.toString() + w.toString() + this.grid_info[h][w];
-    }
-
-    get_mino_info(mino_type){
+    //ミノの形を2次元GRID形式で返す
+    get_mino_info(mino_type, info_for){
         if(mino_type == "") return [];
 
         let height = (mino_type == "I")? 1 : 2;
         let width;
         if(mino_type == "I"){
             width = 4;
-        }else if(mino_type == "O"){
-            width = 2;
-        }else{
+        }else{ 
             width = 3;
         }
 
@@ -383,29 +370,31 @@ class Tetris{
         for(let h=0; h<height; h++){
             let row = []
             for(let w=0; w<width; w++){
-                row.push("null-cell")
+                row.push("null-" + info_for + "-cell")
             }
             mino_info.push(row)
         }
 
         this.mino_shapes[mino_type].map(([dy,dx]) => {
             let y = (mino_type == "I")? dy-1 : dy;
-            let x = dx;
-            mino_info[y][x] = "hold-cell " + mino_type
+            let x = (mino_type == "O")? dx+1 : dx;
+            mino_info[y][x] = info_for + "-cell " + mino_type
         });
 
         return mino_info;
     }
 
+    //ホールドのミノの形を2次元GRID形式で返す
     get_hold_info(){
-        let hold_info = this.get_mino_info(this.hold_mino_type);
+        let hold_info = this.get_mino_info(this.hold_mino_type, "hold");
         return hold_info;
     }
 
+    //ネクストのミノの形を2次元GRID形式で返す
     get_next_info(){
         let next_info = [];
         for(let i=0; i<6; i++){
-            next_info.push(this.get_mino_info(this.next_array[i]));
+            next_info.push(this.get_mino_info(this.next_array[i], "next") );
         }
         return next_info;
     }
@@ -427,7 +416,7 @@ let cnt = 0
 let render_grid = function(){
     let dom = document.getElementById('grid');
     let el=(
-        <div className="grid" key={cnt}>
+        <div className="grid">
             {
                 tetris.grid_info.map((row,idx1)=>{
                     return(
@@ -435,7 +424,7 @@ let render_grid = function(){
                             {
                                 row.map((cell_info,idx2)=>{
                                     return (
-                                        <React.Fragment key={tetris.get_key(idx1, idx2)}>
+                                        <React.Fragment key={idx1.toString() + "," + idx2.toString()}>
                                             <Cell class={cell_info}/>
                                         </React.Fragment>
                                     )
@@ -455,7 +444,7 @@ let render_grid = function(){
 let render_hold = function(){
     let dom = document.getElementById('hold');
     let el=(
-        <div className="hold" key={cnt}>
+        <div className="hold">
             {
 
                 tetris.get_hold_info().map((row,idx1)=>{
@@ -464,7 +453,7 @@ let render_hold = function(){
                             {
                                 row.map((cell_info,idx2)=>{
                                     return (
-                                        <div className={cell_info} key={tetris.get_key(idx1, idx2)}>
+                                        <div className={cell_info} key={idx1.toString() + "," + idx2.toString()}>
                                         </div>
                                     )
                                 })
@@ -479,9 +468,46 @@ let render_hold = function(){
     ReactDOM.render(el, dom);
 }
 
+let render_next = function(){
+    let dom = document.getElementById('next');
+    let el=(
+        <div className="next-list">
+            {
+
+                tetris.get_next_info().map((next,idx1)=>{
+                    return(
+                        <div className="next" key={idx1}>
+                            {
+                                next.map((row, idx2) =>{
+                                    return(
+                                        <div className="row" key={idx1.toString() + "," + idx2.toString()}>
+                                            {
+                                                row.map((cell_info,idx3)=>{
+                                                    return (
+                                                        <div className={cell_info} key={idx1.toString() + "," + idx2.toString() + "," + idx3.toString()}>
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                    )
+                                })
+
+                            }
+                        </div>
+                    )
+                })
+            }
+        </div>
+    );
+    console.log(el)
+    ReactDOM.render(el, dom);
+}
+
 //初期描画
 render_grid();
 render_hold();
+render_next();
 
 
 
@@ -522,5 +548,6 @@ document.onkeydown = event =>{
         }
         render_grid();
         render_hold();
+        render_next();
     }
 };

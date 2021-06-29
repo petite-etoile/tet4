@@ -12,7 +12,7 @@ $hold-size: $hold-cell-size * 5;
 $next-cell-size: 15px;
 $next-size: $next-cell-size * 5;
 
-$tetris-width: 1.3 * ($hold-size + $grid-width + $next-size);
+$tetris-width: 1.2 * ($hold-size + $grid-width + $next-size);
 
 
 body{
@@ -36,19 +36,19 @@ body{
 
 .hold-wrapper{
     float:left;
-    width: $hold-size*1.3;
+    width: $hold-size*1.2;
     height:100%;
 }
 
 .grid-wrapper{
     float:left;
-    width: $grid-width*1.3;
+    width: $grid-width*1.2;
     height:100%;
 }
 
 .next-wrapper{
     float:left;
-    width: $next-size*1.3;
+    width: $next-size*1.2;
     height:100%;
 }
 
@@ -56,14 +56,15 @@ body{
     width: $hold-size;
     height: $hold-size;
     background-color: black;
-    border: solid #222 2px;
-    padding-left:30px;
+    border: solid cyan 3px;
+    padding-left:20px;
     padding-top:25px;
+    margin-top:10px;
     margin-left:auto;
     margin-right:auto;
 }
 
-.null-cell{
+.null-hold-cell{
     height: $hold-cell-size;
     width: $hold-cell-size;
     float: left;
@@ -72,6 +73,34 @@ body{
 .hold-cell{
     height: $hold-cell-size;
     width: $hold-cell-size;
+    float: left;
+    border: solid #555 2px;
+}
+
+.next-list{
+    margin-top:10px;
+}
+
+.next{
+    width: $next-size;
+    height: $next-size;
+    background-color: black;
+    border: solid cyan 3px;
+    padding-left:20px;
+    padding-top:25px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.null-next-cell{
+    height: $next-cell-size;
+    width: $next-cell-size;
+    float: left;
+}
+
+.next-cell{
+    height: $next-cell-size;
+    width: $next-cell-size;
     float: left;
     border: solid #555 2px;
 }
@@ -132,7 +161,3 @@ body{
     clear: both;
 }
 
-
-ul{
-    list-style: none;
-}
