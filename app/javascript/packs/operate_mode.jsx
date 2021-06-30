@@ -6,11 +6,7 @@ import PropTypes from "prop-types"
 
 function Form(props){
     let ren_cnt = props.ren_cnt
-    console.log("rencnt: " + props.ren_cnt)
     let name = ""
-
-    // doChange = doChange.bind()
-    // doSubmit = doSubmit.bind()
 
     let doChange = (event) => {
         name = event.target.value;
@@ -42,12 +38,13 @@ function Form(props){
     }
 
     return(
-        <div className="alert alert-success ">
+        <div className="alert alert-primary w-100" style={{height:"130px"}}>
             <form onSubmit={doSubmit}>
                 <div className="form-group">
-                    <input type="text" className="form-control" onChange={doChange} required maxLength="20" />
+                    <label > ランキングに登録</label>
+                    <input type="text" className="form-control" onChange={doChange} required maxLength="20" placeholder="名前を入力"/>
+                    <input type="submit" className="btn btn-primary float-right" value="登録" />
                 </div>
-                <input type="submit" className="btn btn-primary" value="登録" />
             </form>
         </div>
     )
@@ -100,7 +97,6 @@ class Tetris{
     lengthen_next_array(){
         this.shuffle_mino_array()
         this.next_array = this.next_array.concat( this.mino_array )
-        console.log(this.next_array)
     }
     
     //minoのシャッフル(NEXT用)　
@@ -298,16 +294,10 @@ class Tetris{
         for(let idx=0; idx<spin_pattern.length; idx++){
             let dy,dx;
             [dy, dx] = spin_pattern[idx];
-            console.log(spin_pattern[idx])
-            console.log([dy,dy])
             this.active_mino_position_y = before_position_y + dy;
             this.active_mino_position_x = before_position_x + dx;
-            console.log("y,x:" +  [this.active_mino_position_y, this.active_mino_position_x])
-            console.log(this.is_conflicting())
             if(! this.is_conflicting()){
                 conflicting_all_pattern = false;
-                console.log("idx:" + idx);
-                console.log()
                 break;
             }
         }
@@ -364,7 +354,6 @@ class Tetris{
         }
         this.add_mino_to_grid()
      
-        console.log(this.active_mino_position_x)
     }
 
     //1マス右に動かす
@@ -377,7 +366,6 @@ class Tetris{
         }
         this.add_mino_to_grid()
      
-        console.log(this.active_mino_position_x)
     }
 
     //1マス下に動かす
@@ -390,7 +378,6 @@ class Tetris{
         }
 
         this.add_mino_to_grid()
-        console.log(this.active_mino_position_y)
     }
 
     //下まで瞬時に下ろす
@@ -407,7 +394,6 @@ class Tetris{
         }
 
         this.active_mino_position_y = max_y;
-        console.log(max_y);
         this.add_mino_to_grid();
         this.drop();
     }
@@ -512,7 +498,6 @@ class Tetris{
             this.record_enabled = true;
         }
         console.log("GAME OVER");
-        alert("GAME OVER... 記録:"+this.REN_cnt+"REN")
     }
 
     //ミノの形を2次元GRID形式で返す
@@ -663,22 +648,6 @@ let render_REN_cnt = function(){
     ReactDOM.render(el, dom);
 }
 
-let render_retry_button = function(){
-    let dom = document.querySelector("#retry")
-    console.log(tetris.next_array)
-    let el = (<button className="btn btn-warning btn-lg btn-block border border-dark" onClick={render_retry_button}>Retry!</button>)
-    ReactDOM.render(el, dom)
-    tetris.initialize();
-    render_grid();
-    render_hold();
-    render_next();
-    render_REN_cnt();
-}
-
-
-//初期描画
-render_retry_button();
-
 
 let render_record_form = function(cnt){
     let dom = document.querySelector("#record-form")
@@ -687,12 +656,52 @@ let render_record_form = function(cnt){
     if(tetris.record_enabled){
         el = <Form ren_cnt={cnt}/>
     }else if(tetris.is_gameover){
-        el = <div>{tetris.REN_cnt >= tetris.need_score ? "登録しました." : ""}</div>
+        if(tetris.REN_cnt >= tetris.need_score){
+            el = <div className="record-message alert-success"> 登録しました. </div>
+        }else{
+            el = <div className="non-record-message alert alert-primary "> {tetris.need_score + "REN以上で,ランキングに登録できます."} </div>
+        }
     }else{
         el = <div></div>
     }
     ReactDOM.render(el, dom)
 }
+
+let render_gameover = function(){
+    let dom = document.querySelector("#gameover")
+    let el;
+    if(tetris.is_gameover){
+        el = (<div className=" gameover-bar bg-warning text-danger text-center">GAME OVER</div>)
+    }else{
+        el = (<div className=" gameover-bar border-bottom text-danger text-center"></div>)
+    }
+    
+    ReactDOM.render(el, dom)
+}
+
+
+let render_retry_button = function(){
+    console.log("render retry")
+    let dom = document.querySelector("#retry")
+    let el = (<button className="btn btn-warning btn-lg btn-block border border-dark" onClick={render_retry_button}>Retry!</button>)
+    ReactDOM.render(el, dom)
+    tetris.initialize();
+    render_grid();
+    render_hold();
+    render_next();
+    render_REN_cnt();
+    render_record_form(tetris.REN_cnt);
+    render_gameover();
+
+}
+
+
+
+//初期描画
+render_retry_button();
+
+
+render_gameover();
 render_record_form(tetris.REN_cnt);
 
 
@@ -712,7 +721,6 @@ document.onkeydown = event =>{
 
 
     if( [A_code, D_code, S_code, W_code, left_code, up_code, right_code, down_code, space_code].includes(event.keyCode) ){
-        console.log(event.keyCode)
         if(down_code == event.keyCode){
         }else if(left_code == event.keyCode){
             tetris.spin_left();
@@ -734,12 +742,9 @@ document.onkeydown = event =>{
         render_hold();
         render_next();
         render_REN_cnt();
-        console.log(tetris.record_enabled)
         render_record_form(tetris.REN_cnt);
+        render_gameover();
 
-        if(tetris.is_gameover){
-
-        }
     }
 };
 

@@ -27,9 +27,6 @@ body{
     float:left;
     height:$tetris-height;
     width:$tetris-width;
-    // width:$tetris-width; 
-    // width:auto;
-    // height:fit-content;
     background-color:lightpink;
 }
 
@@ -183,6 +180,31 @@ body{
     text-align: center;
 }
 
+
+.record-message{
+    width:100%;
+    font-size:large;
+    text-align: center;
+    padding-top:35px;
+    height: 100px;
+    background-color: skyblue;
+    margin-bottom: 30px;
+}
+
+.non-record-message{
+    width:100%;
+    text-align: center;
+    padding-top:25px !important; 
+    height: 100px;
+    background-color: #d4edda;
+    margin-bottom: 30px;
+}
+
+.gameover-bar{
+    height:50px;
+    margin-bottom:20px;
+    font-size:xx-large;
+}
 
 input:invalid{
     border: 5px solid red;

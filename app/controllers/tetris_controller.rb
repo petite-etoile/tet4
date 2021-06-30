@@ -16,7 +16,7 @@ class TetrisController < ApplicationController
 
   def ranking
     @page = "ranking"
-    @data = Ranking.all
+    @data = Ranking.all.order("score desc")
   end
   
   def add_record
