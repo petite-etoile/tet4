@@ -1,15 +1,16 @@
-import React from "react"
+import React, {useState} from "react"
 import ReactDOM from "react-dom"
 import PropTypes from "prop-types"
 
 
 
 function Form(props){
-    let ren_cnt = props.ren_cnt
-    let name = ""
+    let [ren_cnt, _] = useState(props.ren_cnt)
+
+    let [name, setName] = useState(props.name == null ? "" : props.name)
 
     let doChange = (event) => {
-        name = event.target.value;
+        setName(event.target.value)
     }
 
     let doSubmit = (event) => {
@@ -35,19 +36,34 @@ function Form(props){
 
         event.preventDefault();
         render_record_form();
+        player_name = name;
     }
 
-    return(
-        <div className="alert alert-primary w-100" style={{height:"130px"}}>
-            <form onSubmit={doSubmit}>
-                <div className="form-group">
-                    <label > ランキングに登録</label>
-                    <input type="text" className="form-control" onChange={doChange} required maxLength="20" placeholder="名前を入力"/>
-                    <input type="submit" className="btn btn-primary float-right" value="登録" />
-                </div>
-            </form>
-        </div>
-    )
+    if(name == ""){
+        return(
+            <div className="alert alert-primary w-100" style={{height:"130px"}}>
+                <form onSubmit={doSubmit}>
+                    <div className="form-group">
+                        <label > ランキングに登録</label>
+                        <input type="text" className="form-control" onChange={doChange} required maxLength="20" placeholder="名前を入力" value=""/>
+                        <input type="submit" className="btn btn-primary float-right" value="登録" />
+                    </div>
+                </form>
+            </div>
+        )
+    }else{
+        return(
+            <div className="alert alert-primary w-100" style={{height:"130px"}}>
+                <form onSubmit={doSubmit}>
+                    <div className="form-group">
+                        <label > ランキングに登録</label>
+                        <input type="text" className="form-control" onChange={doChange} required maxLength="20" value={name || " "}/>
+                        <input type="submit" className="btn btn-primary float-right" value="登録" />
+                    </div>
+                </form>
+            </div>
+        )
+    }
 }
 
 
@@ -649,12 +665,12 @@ let render_REN_cnt = function(){
 }
 
 
+let player_name;
 let render_record_form = function(cnt){
     let dom = document.querySelector("#record-form")
     let el;
-    console.log(tetris.record_enabled)
     if(tetris.record_enabled){
-        el = <Form ren_cnt={cnt}/>
+        el = <Form ren_cnt={cnt}　name={player_name}/>
     }else if(tetris.is_gameover){
         if(tetris.REN_cnt >= tetris.need_score){
             el = <div className="record-message alert-success"> 登録しました. </div>
@@ -681,7 +697,6 @@ let render_gameover = function(){
 
 
 let render_retry_button = function(){
-    console.log("render retry")
     let dom = document.querySelector("#retry")
     let el = (<button className="btn btn-warning btn-lg btn-block border border-dark" onClick={render_retry_button}>Retry!</button>)
     ReactDOM.render(el, dom)
