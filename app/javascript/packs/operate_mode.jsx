@@ -66,7 +66,7 @@ class Tetris{
     GRID_WIDTH = 10;
     GRID_HEIGHT = 20;
     
-    need_score = 5;
+    need_score = 25;
     
     mino_shapes = {
         "O":[[0,0], [0,1], [1,0], [1,1]],
