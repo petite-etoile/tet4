@@ -661,6 +661,22 @@ let render_record_form = function(){
 //初期描画
 render_retry_button();
 
+
+let url = "./add_record";
+let data = new FormData();
+data.set("name", "test");
+data.set("score", "3");
+fetch(url, {
+        method: "POST",
+        cache: "no-cache",
+        body: data
+}).then((res)=>{
+    if(!res.ok){
+        throw new Error(`${res.status} ${res.statusText}`)
+    }
+})
+
+
 //テトリスの操作
 document.onkeydown = event =>{
     const A_code = 65;
@@ -699,7 +715,7 @@ document.onkeydown = event =>{
         render_hold();
         render_next();
         render_REN_cnt();
-        if(gameover){
+        if(tetris.gameover){
 
         }
     }
