@@ -1,1 +1,14 @@
 ranking
+<table class="table table-dark table-bordered">
+    <tr class=" text-center">
+        <th>名前</th> <th>スコア</th> <th>日時</th> 
+    </tr>
+
+    <% @data.each do |obj| %>
+        <tr>
+            <td class="text-center"> <%= obj.name %> </td>
+            <td class="text-right"> <%= "#{obj.score}REN" %> </td>
+            <td class="text-center "> <%= obj.created_at %> </td>
+        </tr>
+    <% end %>
+</table>

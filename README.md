@@ -53,6 +53,19 @@ https://qiita.com/diescake/items/70d9b0cbd4e3d5cc6fce
 
 https://getbootstrap.jp/docs/4.2/content/tables/
 
-* jsのFormData
 
+
+* jsのfetchでrailsとデータのやりとり
+
+https://javascript.keicode.com/newjs/fetch.php
 https://developer.mozilla.org/ja/docs/Web/API/FormData/FormData
+https://qiita.com/tomoyukilabs/items/9b464c53450acc0b9574
+
+
+* マイグレーション実行後のモデルの削除
+
+https://ruemura3.com/2021/06/rails-destroy/#toc7
+
+* created_atを日本時間に
+
+https://qiita.com/tomo_k09/items/e4f19947d35890500492

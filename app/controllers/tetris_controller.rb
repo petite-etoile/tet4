@@ -16,23 +16,26 @@ class TetrisController < ApplicationController
 
   def ranking
     @page = "ranking"
+    @data = Ranking.all
   end
   
   def add_record
+    # p params
     @ranking = Ranking.new(name: params[:name], score: params[:score])
     if @ranking.save()
+      res = {
+        message: "OK"
+      }
     else
-      res = ""
-      @person.errors.messages.each do |key, vals|
-        p [key, vals]
+      res = {}
+      @ranking.errors.messages.each do |key, vals|
         vals.each do |val|
-          res += {key:"#{val}"}
+          res[key] = val
         end
       end
-      return json:res
     end
-    p Ranking.all
 
+    render json:res
   end
 
   def record_params

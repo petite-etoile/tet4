@@ -184,6 +184,14 @@ body{
 }
 
 
+input:invalid{
+    border: 5px solid red;
+}
+
+input:valid{
+    border: 1px solid blue;
+}
+
 @media screen and (max-width: 1199px){
     .container{
         width:100%;

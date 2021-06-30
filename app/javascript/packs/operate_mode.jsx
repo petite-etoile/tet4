@@ -2,19 +2,60 @@ import React from "react"
 import ReactDOM from "react-dom"
 import PropTypes from "prop-types"
 
-//クラスコンポーネントだとうまくいかなかった。。。多分, setStateとか使わないと更新されないみたいな話だと思うけど, 今は動くのを優先で後回し。
-// class Cell extends React.Component{
-//     class = "cell ";
-//     constructor(props){
-//         super();
-//         this.class += props.class;
-//     }
 
-//     render(){
-//         let res = <div className = {this.class}> </div>;
-//         return res
-//     }
-// }
+
+function Form(props){
+    let ren_cnt = props.ren_cnt
+    console.log("rencnt: " + props.ren_cnt)
+    let name = ""
+
+    // doChange = doChange.bind()
+    // doSubmit = doSubmit.bind()
+
+    let doChange = (event) => {
+        name = event.target.value;
+    }
+
+    let doSubmit = (event) => {
+        const url = "./add_record";
+        let data = new FormData();
+        data.set("name", name);
+        data.set("score", ren_cnt);
+        
+        fetch(url, {
+                method: "POST",
+                cache: "no-cache",
+                body: data
+        }).then((res)=>{
+            if(!res.ok){
+                throw new Error(`${res.status} ${res.statusText}`)
+            }
+            return res.json();
+        }).then((json)=>{
+            console.log(json)
+        })
+
+        tetris.record_enabled = false; //多重登録を防ぐ
+
+        event.preventDefault();
+        render_record_form();
+    }
+
+    return(
+        <div className="alert alert-success ">
+            <form onSubmit={doSubmit}>
+                <div className="form-group">
+                    <input type="text" className="form-control" onChange={doChange} required maxLength="20" />
+                </div>
+                <input type="submit" className="btn btn-primary" value="登録" />
+            </form>
+        </div>
+    )
+}
+
+
+
+
 
 function Cell(props){
     return <div className = {"cell " + props.class}> </div>;
@@ -22,24 +63,14 @@ function Cell(props){
 
 
 class Tetris{
-    next_array = []
     mino_array = ["I","O","Z","S","J","L","T"]
-    hold_mino_type = ""
-    holdable = true
-
     deleting = false //ラインを消した時に, 1秒くらい操作不能にする. エフェクトを加えたりするので. 
 
     GRID_WIDTH = 10;
     GRID_HEIGHT = 20;
-    grid_info = []
     
-    active_mino_position_x = 0 //操作対象のミノのx座標(左上)
-    active_mino_position_y = 0 //操作対象のミノのy座標(左上)
-    active_mino_rotate_status = 0 //回転の状態 [0,3]の整数
-
-    active_mino_type = ""
-    active_mino_size = 0 //Iミノなら4, それ以外なら3. 回転の時につかう情報.
-
+    need_score = 5;
+    
     mino_shapes = {
         "O":[[0,0], [0,1], [1,0], [1,1]],
         "T":[[0,1], [1,0], [1,1], [1,2]],
@@ -50,9 +81,6 @@ class Tetris{
         "I":[[1,0], [1,1], [1,2], [1,3]]
     }
 
-    REN_cnt = 0
-    gameover = false;
-    
     constructor(){
         this.initialize()
     }
@@ -64,7 +92,8 @@ class Tetris{
         this.holdable = true
         this.REN_cnt = 0
         this.hold_mino_type = "" 
-        this.gameover = false;
+        this.is_gameover = false;
+        this.record_enabled = false;
     }
 
     //NEXTの配列を1巡分長くする
@@ -478,7 +507,10 @@ class Tetris{
     //GAMEOVERのときに, する処理
     GAMEOVER(){
         this.active_mino_type = ""
-        this.gameover = true;
+        this.is_gameover = true;
+        if(this.REN_cnt >= this.need_score){
+            this.record_enabled = true;
+        }
         console.log("GAME OVER");
         alert("GAME OVER... 記録:"+this.REN_cnt+"REN")
     }
@@ -557,7 +589,6 @@ let render_grid = function(){
             }
         </div>
     );
-    console.log(el)
     ReactDOM.render(el, dom);
 }
 
@@ -584,7 +615,6 @@ let render_hold = function(){
             }
         </div>
     );
-    console.log(el)
     ReactDOM.render(el, dom);
 }
 
@@ -620,7 +650,6 @@ let render_next = function(){
             }
         </div>
     );
-    console.log(el)
     ReactDOM.render(el, dom);
 }
 
@@ -646,35 +675,25 @@ let render_retry_button = function(){
     render_REN_cnt();
 }
 
-let render_record_form = function(){
-    let dom = document.querySelector("#record-form")
-    console.log(tetris.next_array)
-    let el = (<button onClick={render_retry_button}>Retry!</button>)
-    ReactDOM.render(el, dom)
-    tetris.initialize();
-    render_grid();
-    render_hold();
-    render_next();
-    render_REN_cnt();
-}
 
 //初期描画
 render_retry_button();
 
 
-let url = "./add_record";
-let data = new FormData();
-data.set("name", "test");
-data.set("score", "3");
-fetch(url, {
-        method: "POST",
-        cache: "no-cache",
-        body: data
-}).then((res)=>{
-    if(!res.ok){
-        throw new Error(`${res.status} ${res.statusText}`)
+let render_record_form = function(cnt){
+    let dom = document.querySelector("#record-form")
+    let el;
+    console.log(tetris.record_enabled)
+    if(tetris.record_enabled){
+        el = <Form ren_cnt={cnt}/>
+    }else if(tetris.is_gameover){
+        el = <div>{tetris.REN_cnt >= tetris.need_score ? "登録しました." : ""}</div>
+    }else{
+        el = <div></div>
     }
-})
+    ReactDOM.render(el, dom)
+}
+render_record_form(tetris.REN_cnt);
 
 
 //テトリスの操作
@@ -715,7 +734,10 @@ document.onkeydown = event =>{
         render_hold();
         render_next();
         render_REN_cnt();
-        if(tetris.gameover){
+        console.log(tetris.record_enabled)
+        render_record_form(tetris.REN_cnt);
+
+        if(tetris.is_gameover){
 
         }
     }
