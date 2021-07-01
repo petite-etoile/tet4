@@ -107,12 +107,38 @@ function Next(props){
 
 }
 
+function Grid(props){
+    let grid_info = props.grid_info
+
+    return (
+        <div className="grid">
+            {
+                grid_info.map((row,idx1)=>{
+                    return(
+                        <div className="row" key={idx1}>
+                            {
+                                row.map((cell_info,idx2)=>{
+                                    return (
+                                        <React.Fragment key={idx1.toString() + "," + idx2.toString()}>
+                                            <Cell class={cell_info}/>
+                                        </React.Fragment>
+                                    )
+                                })
+                            }
+                        </div>
+                    )
+                })
+            }
+        </div>
+    )
+}
+
 //ホールドを表示するコンポーネント
 function Hold(props){
     let hold_mino_type = props.hold
     console.log(hold_mino_type)
     let hold_info = tetris.get_mino_info(hold_mino_type, "hold")
-
+    
     return(
         <div className="hold">
             {
@@ -135,6 +161,76 @@ function Hold(props){
     )
 }
 
+function History(){
+    let get_grid_info_from_mini_one = (mini_grid_info, active_mino_type)=>{
+        let grid_info = []
+
+        console.log("mino:" + active_mino_type)
+
+        //両端をfull, 真ん中4列をemptyにする
+        for(let h=0; h<tetris.GRID_HEIGHT; h++){
+            let row = [];
+            for(let w=0; w<tetris.GRID_WIDTH; w++){
+                if( 3 <= w && w < 7){
+                    row.push("empty");
+                }else{
+                    row.push("full");
+                }
+            }
+            grid_info.push(row);
+        }
+
+        //4x3のmini_grid_infoの情報を反映
+        for(let dy=0; dy<3; dy++){
+            for(let dx=0; dx<4; dx++){
+                grid_info[17+dy][3+dx] = mini_grid_info[dy][dx];
+            }
+        }
+
+        //ミノの描画
+        const active_mino_position_x = (active_mino_type=="O") ? 4 : 3; 
+        const active_mino_position_y = 0;
+        tetris.mino_shapes[active_mino_type].map(([dy,dx])=>{
+            let y = active_mino_position_y + dy;
+            let x = active_mino_position_x + dx;
+            grid_info[y][x] = active_mino_type
+        })
+
+        return grid_info
+    }
+
+    return (
+        <div className="history-wrapper">
+            <h1 className="border border-primary bg-white text-center">履歴</h1>
+            {
+                tetris.history.map((state,idx)=>{
+                    console.log(state.mini_grid_info)
+                    console.log(state)
+                    return (
+                        <div key={idx}>
+                            <div className="tetris mini ml-1 mt-1">
+                                <div className="hold-wrapper">
+                                    <Hold hold={state.hold_mino_type}/>
+                                    <div className="float-left w-100 text-center text-danger">{state.ren_cnt}REN</div>
+                                </div>
+                                <div className="grid-wrapper ">
+                                    <Grid grid_info={get_grid_info_from_mini_one(state.mini_grid_info, state.active_mino_type)} />
+                                </div>
+                                <div className="next-wrapper">
+                                    <Next next={state.next_array}/>
+                                </div>
+
+                            </div>
+                        </div>
+                    )
+                })
+            }
+        </div>
+    )
+
+}
+
+
 //各マスを表示するコンポーネント
 function Cell(props){
     return <div className = {"cell " + props.class}> </div>;
@@ -150,6 +246,8 @@ class GridState{
     hold_mino_type = "";
     holdable = true;
     next_array = []
+    active_mino_type = "";
+
 
     constructor(){
     }
@@ -186,14 +284,14 @@ class Tetris{
     initialize(){
 
         this.state.next_array = []
-        this.init_grid_info()
-        this.update_mino()
         this.state.holdable = true
         this.state.ren_cnt = 0
         this.state.hold_mino_type = "" 
         this.is_gameover = false;
         this.history = []
 
+        this.init_grid_info()
+        this.update_mino()
 
     }
 
@@ -230,10 +328,10 @@ class Tetris{
     }
 
     //盤面の真ん中4列 x 下3行を返す
-    extract_mini_grid_info(){
-        mini_grid_info = []
+    get_mini_grid_info(){
+        let mini_grid_info = []
         for(let h=17; h<this.GRID_HEIGHT; h++){
-            row = []
+            let row = []
             for(let w=3; w<7; w++){
                 row.push(this.grid_info[h][w]);
             }
@@ -265,17 +363,17 @@ class Tetris{
     //ミノの形(座標)を取得
     get_mino_shape(){
         if(this.active_mino_rotate_status == 0){ //そのまま
-            return this.mino_shapes[this.active_mino_type]
+            return this.mino_shapes[this.state.active_mino_type]
         }else if(this.active_mino_rotate_status == 1){ //1度右に回転
-            return this.mino_shapes[this.active_mino_type].map(([y,x])=>{
+            return this.mino_shapes[this.state.active_mino_type].map(([y,x])=>{
                 return [x, this.active_mino_size - 1 - y]
             })
         }else if(this.active_mino_rotate_status == 2){ //2度右に回転
-            return this.mino_shapes[this.active_mino_type].map(([y,x])=>{
+            return this.mino_shapes[this.state.active_mino_type].map(([y,x])=>{
                 return [this.active_mino_size - 1 - y, this.active_mino_size - 1 - x]
             })
         }else{ //1度左に回転
-            return this.mino_shapes[this.active_mino_type].map(([y,x])=>{
+            return this.mino_shapes[this.state.active_mino_type].map(([y,x])=>{
                 return [this.active_mino_size - 1 - x, y]
             })
         }
@@ -283,8 +381,8 @@ class Tetris{
 
     //操作中のミノの位置や回転状況などを変数に反映し, 描画する.
     set_active_mino(){
-        this.active_mino_size = (this.active_mino_type=="I") ? 4 : 3
-        this.active_mino_position_x = (this.active_mino_type=="O") ? 4 : 3
+        this.active_mino_size = (this.state.active_mino_type=="I") ? 4 : 3
+        this.active_mino_position_x = (this.state.active_mino_type=="O") ? 4 : 3
 
         this.active_mino_position_y = 0 
         this.active_mino_rotate_status = 0 
@@ -299,9 +397,10 @@ class Tetris{
             this.lengthen_next_array()   
         }
 
-        this.active_mino_type = this.state.next_array.shift()
+        this.state.active_mino_type = this.state.next_array.shift()
 
         this.set_active_mino();
+        this.append_state_history();
     }
 
     //操作対象のミノをgrid_infoに追加
@@ -309,7 +408,7 @@ class Tetris{
         this.get_mino_shape().map( ([dy,dx]) =>{
             let y = this.active_mino_position_y + dy;
             let x = this.active_mino_position_x + dx;
-            this.grid_info[y][x] = this.active_mino_type
+            this.grid_info[y][x] = this.state.active_mino_type
         })
     }
 
@@ -396,7 +495,7 @@ class Tetris{
     //SuperRotationSystemで回転を決定
     super_rotation(before_rotate_status, spin_type){
         let spin_pattern;
-        if(this.active_mino_type == "I"){
+        if(this.state.active_mino_type == "I"){
             spin_pattern = this.get_spin_pattern_for_I(before_rotate_status, spin_type)
         }else{
             spin_pattern = this.get_spin_pattern_for_not_I(before_rotate_status, spin_type)
@@ -429,7 +528,7 @@ class Tetris{
 
     //左回転
     spin_left(){
-        if(this.active_mino_type == "O"){
+        if(this.state.active_mino_type == "O"){
             return;
         }
 
@@ -446,7 +545,7 @@ class Tetris{
 
     //右回転
     spin_right(){
-        if(this.active_mino_type == "O"){
+        if(this.state.active_mino_type == "O"){
             return;
         }
 
@@ -553,7 +652,6 @@ class Tetris{
             }
         }
 
-        this.append_state_history();
 
 
         //もしラインが消えなかったらゲームオーバー
@@ -569,7 +667,7 @@ class Tetris{
 
     //現在の盤面を履歴に登録する
     append_state_history(){
-        console.log("登録!")
+        this.state.mini_grid_info = this.get_mini_grid_info();
         this.history.push(JSON.parse(JSON.stringify(this.state)))
     }
 
@@ -604,22 +702,20 @@ class Tetris{
             return;
         }
 
-        this.append_state_history(); //ホールド前の盤面を履歴に登録
-
         this.state.holdable = false;
         this.remove_mino_from_grid();
         if(this.state.hold_mino_type == ""){
-            this.state.hold_mino_type = this.active_mino_type;
+            this.state.hold_mino_type = this.state.active_mino_type;
             this.update_mino();
         }else{
-            [this.state.hold_mino_type, this.active_mino_type] = [this.active_mino_type, this.state.hold_mino_type];
+            [this.state.hold_mino_type, this.state.active_mino_type] = [this.state.active_mino_type, this.state.hold_mino_type];
             this.set_active_mino()
         }
     }
     
     //GAMEOVERのときに, する処理
     GAMEOVER(){
-        this.active_mino_type = ""
+        this.state.active_mino_type = ""
         this.is_gameover = true;
         if(this.state.ren_cnt >= this.need_score){
             this.record_enabled = true;
@@ -683,27 +779,7 @@ tetris.initialize()
 
 let render_grid = function(){
     let dom = document.getElementById('grid');
-    let el=(
-        <div className="grid">
-            {
-                tetris.grid_info.map((row,idx1)=>{
-                    return(
-                        <div className="row" key={idx1.toString() + " "}>
-                            {
-                                row.map((cell_info,idx2)=>{
-                                    return (
-                                        <React.Fragment key={idx1.toString() + "," + idx2.toString()}>
-                                            <Cell class={cell_info}/>
-                                        </React.Fragment>
-                                    )
-                                })
-                            }
-                        </div>
-                    )
-                })
-            }
-        </div>
-    );
+    let el=( <Grid grid_info={tetris.grid_info} />);
     ReactDOM.render(el, dom);
 }
 
@@ -730,7 +806,6 @@ let render_REN_cnt = function(){
 }
 
 
-
 let player_name;
 let render_record_form = function(cnt){
     let dom = document.querySelector("#record-form")
@@ -755,7 +830,7 @@ let render_gameover = function(){
     if(tetris.is_gameover){
         el = (<div className=" gameover-bar bg-warning text-danger text-center">GAME OVER</div>)
     }else{
-        el = (<div className=" gameover-bar border-bottom text-danger text-center"></div>)
+        el = (<div className=" gameover-bar  text-danger text-center"></div>)
     }
     ReactDOM.render(el, dom)
 }
@@ -764,19 +839,9 @@ let render_history = function(){
     let dom = document.querySelector("#history");
     let el;
     if(tetris.is_gameover){
-        el = (
-            <div className="history-wrapper">
-                {
-                    tetris.history.map((state,idx)=>{
-                        return (
-                            <div key={idx}>
-
-                            </div>
-                        )
-                    })
-                }
-            </div>
-        )
+        console.log(tetris.history[0].next)
+        console.log(tetris.history[0].hold_mino_type)
+        el = ( <History /> );
     }else{
         el = (<div> </div>)
     }
