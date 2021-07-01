@@ -857,7 +857,7 @@ let render_retry_button = function(){
     render_hold();
     render_next();
     render_REN_cnt();
-    render_record_form(tetris.ren_cnt);
+    render_record_form(tetris.state.ren_cnt);
     render_gameover();
     render_history();
 }
@@ -869,7 +869,7 @@ render_retry_button();
 
 
 // render_gameover();
-// render_record_form(tetris.ren_cnt);
+// render_record_form(tetris.state.ren_cnt);
 // render_history();
 
 
@@ -911,7 +911,7 @@ document.onkeydown = event =>{
         render_hold();
         render_next();
         render_REN_cnt();
-        render_record_form(tetris.ren_cnt);
+        render_record_form(tetris.state.ren_cnt);
         render_gameover();
         render_history();
     }
