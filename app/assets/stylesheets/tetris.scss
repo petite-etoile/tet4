@@ -214,6 +214,12 @@ input:valid{
     border: 1px solid blue;
 }
 
+.history-wrapper{
+    height:300px;
+    background-color: skyblue;
+    margin-top: 30px;
+}
+
 @media screen and (max-width: 1199px){
     .container{
         width:100%;
