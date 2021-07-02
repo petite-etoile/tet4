@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import ReactDOM from "react-dom"
+import ReactDOM, { render } from "react-dom"
 import PropTypes from "prop-types"
 
 
@@ -8,9 +8,11 @@ function Form(props){
     let [ren_cnt, _] = useState(props.ren_cnt)
 
     let [name, setName] = useState(props.name == null ? "" : props.name)
+    let [accepted, setAccepted] = useState(false)
 
     let doChange = (event) => {
         setName(event.target.value)
+        setAccepted(true)
     }
 
     let doSubmit = (event) => {
@@ -19,6 +21,7 @@ function Form(props){
         data.set("name", name);
         data.set("score", ren_cnt);
         
+        let ok;
         fetch(url, {
                 method: "POST",
                 cache: "no-cache",
@@ -29,8 +32,11 @@ function Form(props){
             }
             return res.json();
         }).then((json)=>{
-            console.log(json)
+            ok = json["message"]=="OK"
         })
+        setAccepted(ok)
+        console.log(accepted)
+
 
         tetris.record_enabled = false; //多重登録を防ぐ
 
@@ -38,6 +44,8 @@ function Form(props){
         render_record_form();
         player_name = name;
     }
+
+
 
     if(name == ""){
         return(
@@ -107,6 +115,7 @@ function Next(props){
 
 }
 
+//盤面を表示するコンポーネント
 function Grid(props){
     let grid_info = props.grid_info
 
@@ -161,11 +170,10 @@ function Hold(props){
     )
 }
 
+//盤面履歴を表示するコンポーネント
 function History(){
     let get_grid_info_from_mini_one = (mini_grid_info, active_mino_type)=>{
         let grid_info = []
-
-        console.log("mino:" + active_mino_type)
 
         //両端をfull, 真ん中4列をemptyにする
         for(let h=0; h<tetris.GRID_HEIGHT; h++){
@@ -204,8 +212,6 @@ function History(){
             <h1 className="border border-primary bg-white text-center">履歴</h1>
             {
                 tetris.history.map((state,idx)=>{
-                    console.log(state.mini_grid_info)
-                    console.log(state)
                     return (
                         <div key={idx}>
                             <div className="tetris mini ml-1 mt-1">
@@ -230,6 +236,31 @@ function History(){
 
 }
 
+//リセットボタンを表示するコンポーネント
+function ResetButton(){
+    let tetris_initialize = () => {
+        tetris.initialize();
+        render_all();
+    }
+    return (
+        <button className="btn btn-warning btn-lg btn-block border border-secondary mb-1" onClick={tetris_initialize}>Retry!</button>
+    )
+}
+
+//待ったボタンを表示するコンポーネント
+function MattaButton() {
+    let tetris_matta = () =>{
+        tetris.matta();
+        render_all();
+    }
+
+    if(tetris.history.length < 2){
+        return( <button className="btn btn-secondary btn-lg btn-block border border-secondary mb-1" onClick={tetris_matta}>待った!</button> )
+    }else{
+        return( <button className="btn btn-success btn-lg btn-block border border-secondary mb-1" onClick={tetris_matta}>待った!</button> )
+    }
+    
+}
 
 //各マスを表示するコンポーネント
 function Cell(props){
@@ -282,7 +313,7 @@ class Tetris{
     state = new GridState( );
 
     initialize(){
-
+        console.log("called initialize")
         this.state.next_array = []
         this.state.holdable = true
         this.state.ren_cnt = 0
@@ -339,6 +370,7 @@ class Tetris{
         }
         return mini_grid_info;
     }
+
 
     //タネを設置
     set_seed(){
@@ -411,6 +443,7 @@ class Tetris{
             this.grid_info[y][x] = this.state.active_mino_type
         })
     }
+
 
     //操作対象のミノをgrid_infoから削除
     remove_mino_from_grid(){
@@ -671,7 +704,6 @@ class Tetris{
         this.history.push(JSON.parse(JSON.stringify(this.state)))
     }
 
-
     //h行目が消えたかをbool型で返す
     is_completed_line(h){
         let is_completed = true;
@@ -710,6 +742,7 @@ class Tetris{
         }else{
             [this.state.hold_mino_type, this.state.active_mino_type] = [this.state.active_mino_type, this.state.hold_mino_type];
             this.set_active_mino()
+           this.append_state_history();
         }
     }
     
@@ -723,6 +756,34 @@ class Tetris{
             this.record_enabled = false;
         }
         console.log("GAME OVER");
+    }
+
+    restore_to_before_state(before_state){
+        this.init_grid_info();
+        this.state.active_mino_type  =  before_state.active_mino_type;
+        this.set_active_mino();
+        this.add_mino_to_grid();
+         
+        //4x3のmini_grid_infoの情報を反映
+        for(let dy=0; dy<3; dy++){
+            for(let dx=0; dx<4; dx++){
+                this.grid_info[17+dy][3+dx] = before_state.mini_grid_info[dy][dx];
+            }
+        }
+
+        this.state.ren_cnt = before_state.ren_cnt;
+        this.state.hold_mino_type = before_state.hold_mino_type;
+        this.state.holdable = before_state.holdable;
+        this.state.next_array = before_state.next_array;
+    }
+
+    matta(){
+        if(this.history.length < 2){
+            return;
+        }
+        this.history.pop(); //最後の履歴を削除
+        this.restore_to_before_state(this.history[this.history.length - 1]);
+        this.is_gameover = false;
     }
 
     //ミノの形を2次元GRID形式で返す
@@ -839,8 +900,6 @@ let render_history = function(){
     let dom = document.querySelector("#history");
     let el;
     if(tetris.is_gameover){
-        console.log(tetris.history[0].next)
-        console.log(tetris.history[0].hold_mino_type)
         el = ( <History /> );
     }else{
         el = (<div> </div>)
@@ -848,11 +907,24 @@ let render_history = function(){
     ReactDOM.render(el, dom);
 }
 
+
+
+
+
+
 let render_retry_button = function(){
     let dom = document.querySelector("#retry")
-    let el = (<button className="btn btn-warning btn-lg btn-block border border-dark" onClick={render_retry_button}>Retry!</button>)
-    ReactDOM.render(el, dom)
-    tetris.initialize();
+    let el = (<ResetButton />)
+    ReactDOM.render(el, dom);
+}
+
+let render_matta_button = function(){
+    let dom = document.querySelector("#matta")
+    let el = (<MattaButton />)
+    ReactDOM.render(el, dom);
+}
+
+let render_all = function(){
     render_grid();
     render_hold();
     render_next();
@@ -860,17 +932,14 @@ let render_retry_button = function(){
     render_record_form(tetris.state.ren_cnt);
     render_gameover();
     render_history();
+    render_retry_button();
+    render_matta_button();
 }
 
 
 
 //初期描画
-render_retry_button();
-
-
-// render_gameover();
-// render_record_form(tetris.state.ren_cnt);
-// render_history();
+render_all();
 
 
 //テトリスの操作
@@ -907,14 +976,9 @@ document.onkeydown = event =>{
             tetris.hold();
         }
 
-        render_grid();
-        render_hold();
-        render_next();
-        render_REN_cnt();
-        render_record_form(tetris.state.ren_cnt);
-        render_gameover();
-        render_history();
+        render_all();
     }
 };
 
 
+　
