@@ -99,13 +99,13 @@ let render_history = function(){
 
 let render_retry_button = function(){
     let dom = document.querySelector("#retry")
-    let el = (<ResetButton />)
+    let el = (<ResetButton tetris={tetris} render_all={render_all}/>)
     ReactDOM.render(el, dom);
 }
 
 let render_matta_button = function(){
     let dom = document.querySelector("#matta")
-    let el = (<MattaButton tetris={tetris}/>)
+    let el = (<MattaButton tetris={tetris} render_all={render_all}/>)
     ReactDOM.render(el, dom);
 }
 

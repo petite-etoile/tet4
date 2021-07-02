@@ -5,7 +5,7 @@ function MattaButton(props) {
     let tetris = props.tetris;
     let tetris_matta = () =>{
         tetris.matta();
-        render_all();
+        props.render_all();
     }
 
     if(tetris.history.length < 2){

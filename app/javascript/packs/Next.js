@@ -11,6 +11,7 @@ function Next(props){
 
     return (
         <div className="next-list">
+            
             {
                 next_info.map((next,idx1)=>{
                     return(
