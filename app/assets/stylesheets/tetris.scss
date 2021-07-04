@@ -19,8 +19,17 @@ $tetris-width: 1.2 * ($hold-size + $grid-width + $next-size + 10);
 
 $history-width: ($tetris-width * 5 + 70px)/3;
 
+$left-wrapper-width: 200px;
+$right-wrapper-width:250px;
+
 body{
     padding-top:80px;
+}
+
+.main{
+    width:$left-wrapper-width + $tetris-width + $right-wrapper-width + 60px;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 .space{
@@ -160,7 +169,7 @@ body{
 
 .left-wrapper{
     float:left;
-    width:200px;
+    width:$left-wrapper-width;
     margin-right:30px;
     padding-top:100px;
 }
@@ -174,7 +183,7 @@ body{
 
 .right-wrapper{
     float:left;
-    width:250px;
+    width:$right-wrapper-width;
     margin-left:30px
 }
 .instruction{

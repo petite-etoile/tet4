@@ -4,8 +4,10 @@ import React, {useState} from "react"
 function Form(props){
     let [ren_cnt, _] = useState(props.ren_cnt)
 
-    let [name, setName] = useState(props.name == null ? "" : props.name)
+    let [name, setName] = useState(props.tetris.player_name == null ? "" : props.tetris.player_name)
     let [accepted, setAccepted] = useState(false)
+
+    let tetris = props.tetris
 
     let doChange = (event) => {
         setName(event.target.value)
@@ -38,8 +40,8 @@ function Form(props){
         tetris.record_enabled = false; //多重登録を防ぐ
 
         event.preventDefault();
-        render_record_form();
-        player_name = name;
+        props.render_record_form();
+        props.tetris.player_name = name;
     }
 
 

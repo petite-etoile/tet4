@@ -18,7 +18,8 @@ class Tetris{
     deleting = false //ラインを消した時に, 1秒くらい操作不能にする. エフェクトを加えたりするので. 
 
     
-    need_score = 25;
+    player_name = "";
+    need_score = 3;
     
     GRID_HEIGHT = 20;
     GRID_WIDTH = 10;

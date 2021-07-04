@@ -52,12 +52,11 @@ let render_REN_cnt = function(){
 }
 
 
-let player_name;
 let render_record_form = function(cnt){
     let dom = document.querySelector("#record-form")
     let el;
     if(tetris.record_enabled){
-        el = <Form ren_cnt={cnt}　name={player_name}/>
+        el = <Form ren_cnt={cnt}　tetris={tetris} render_record_form={render_record_form}/>
     }else if(tetris.is_gameover){
         if(tetris.state.ren_cnt >= tetris.need_score){
             el = <div className="record-message alert-success"> 登録しました. </div>
