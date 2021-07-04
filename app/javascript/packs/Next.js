@@ -10,33 +10,36 @@ function Next(props){
     }
 
     return (
-        <div className="next-list">
-            
-            {
-                next_info.map((next,idx1)=>{
-                    return(
-                        <div className="next" key={idx1}>
-                            {
-                                next.map((row, idx2) =>{
-                                    return(
-                                        <div className="row" key={idx1.toString() + "," + idx2.toString()}>
-                                            {
-                                                row.map((cell_info,idx3)=>{
-                                                    return (
-                                                        <div className={cell_info} key={idx1.toString() + "," + idx2.toString() + "," + idx3.toString()}>
-                                                        </div>
-                                                    )
-                                                })
-                                            }
-                                        </div>
-                                    )
-                                })
+        <div>
+            <h6 className="text-center mt-2">Next</h6>
+            <div className="next-list">
 
-                            }
-                        </div>
-                    )
-                })
-            }
+                {
+                    next_info.map((next,idx1)=>{
+                        return(
+                            <div className="next" key={idx1}>
+                                {
+                                    next.map((row, idx2) =>{
+                                        return(
+                                            <div className="row" key={idx1.toString() + "," + idx2.toString()}>
+                                                {
+                                                    row.map((cell_info,idx3)=>{
+                                                        return (
+                                                            <div className={cell_info} key={idx1.toString() + "," + idx2.toString() + "," + idx3.toString()}>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                        )
+                                    })
+
+                                }
+                            </div>
+                        )
+                    })
+                }
+            </div>
         </div>
     )
 

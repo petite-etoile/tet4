@@ -9,7 +9,7 @@ function Hold(props){
     
     return(
         <div>
-            <h6 className="text-center mt-2d">Hold</h6>
+            <h6 className="text-center mt-2 ">Hold</h6>
             <div className="hold">
                 {
                     hold_info.map((row,idx1)=>{
