@@ -13,7 +13,9 @@ class Graph{
         //  #...
         this.before_shape = this.fill_empty("##..#...")
 
-        this.edge[this.before_shape + "O"] = [ [ this.fill_empty("#.##"), this.fill_empty("..##..##") ] ]
+        this.edge[this.before_shape + "O"] = [ 
+            [ this.fill_empty("#.##"), this.fill_empty("..##..##") ] 
+        ]
         this.edge[this.before_shape + "Z"] = [ 
             [ this.fill_empty(".##.#..."), this.fill_empty(".##...##....") ],
             [ this.fill_empty("...##.#."), this.fill_empty("...#..##..#.") ] 
@@ -27,14 +29,18 @@ class Graph{
             [ this.fill_empty("...##..#"), this.fill_empty("...#..##...#") ],
             [ this.fill_empty("..#.#.#."), this.fill_empty("..#...##..#.") ],
         ]
-        this.edge[this.before_shape + "L"] = [ [ this.fill_empty("##.#"), this.fill_empty("...#.###") ] ]
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("##.#"), this.fill_empty("...#.###") ] 
+        ]
 
 
         //  ....
         //  ..##
         //  ...#
         this.before_shape = this.fill_empty("..##...#")
-        this.edge[this.before_shape + "O"] = [ [ this.fill_empty("##.#"), this.fill_empty("##..##..") ] ]
+        this.edge[this.before_shape + "O"] = [ 
+            [ this.fill_empty("##.#"), this.fill_empty("##..##..") ] 
+        ]
         this.edge[this.before_shape + "S"] = [ 
             [ this.fill_empty(".##....#"), this.fill_empty(".##.##......") ],
             [ this.fill_empty("#....#.#"), this.fill_empty("#...##...#..") ] 
@@ -48,14 +54,448 @@ class Graph{
             [ this.fill_empty("#...#..#"), this.fill_empty("#...##..#...") ],
             [ this.fill_empty(".#...#.#"), this.fill_empty(".#..##...#..") ] 
         ]
-        this.edge[this.before_shape + "J"] = [ [ this.fill_empty("#.##"), this.fill_empty("#...###.") ] ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("#.##"), this.fill_empty("#...###.") ] 
+        ]
 
 
         // ....
         // #...
         // #..#
-        // this.before_shape = this.fill_empty("#...#..#")
-        // this.edge[this.before_shape + "O"] = [ [ this.fill_empty("###."), this.fill_empty("##..##..") ] ]
+        this.before_shape = this.fill_empty("#...#..#")
+        this.edge[this.before_shape + "O"] = [ 
+            [ this.fill_empty("###."), this.fill_empty(".##..##.") ] 
+        ]
+        this.edge[this.before_shape + "S"] = [ 
+            [ this.fill_empty("#.##"), this.fill_empty("..##.##.") ] 
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty("..#.#..#"), this.fill_empty("..#..###....") ],
+            [ this.fill_empty("#.##"), this.fill_empty(".###..#.") ]
+        ]
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("...##..#"), this.fill_empty("...#.###....") ],
+            [ this.fill_empty("##.#"), this.fill_empty(".###.#..") ],
+            [ this.fill_empty(".#..##.."), this.fill_empty(".#...#...##.") ] 
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty(".#..#..#"), this.fill_empty(".#...###....") ] 
+        ]
+
+        // ....
+        // ...#
+        // #..#
+        this.before_shape = this.fill_empty("...##..#")
+        this.edge[this.before_shape + "O"] = [ 
+            [ this.fill_empty(".###"), this.fill_empty(".##..##.") ] 
+        ]
+        this.edge[this.before_shape + "Z"] = [ 
+            [ this.fill_empty("##.#"), this.fill_empty("##...##.") ] 
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty(".#..#..#"), this.fill_empty(".#..###.....") ],
+            [ this.fill_empty("##.#"), this.fill_empty("###..#..") ]
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("#...#..#"), this.fill_empty("#...###.....") ],
+            [ this.fill_empty("#.##"), this.fill_empty("###...#.") ],
+            [ this.fill_empty(".#..##.."), this.fill_empty(".#...#...##.") ] 
+        ]
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("..#.#..#"), this.fill_empty("..#.###.....") ] 
+        ]
+
+        // ....
+        // #...
+        // ##..
+        this.before_shape = this.fill_empty("#...##..")
+        this.edge[this.before_shape + "O"] = [ 
+            [ this.fill_empty("#.##"), this.fill_empty("..##..##") ] 
+        ]
+        this.edge[this.before_shape + "Z"] = [ 
+            [ this.fill_empty("###."), this.fill_empty(".##...##") ] 
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty("###."), this.fill_empty(".###..#.") ] 
+        ]
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("...###.."), this.fill_empty("...#.###....") ] 
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty(".#..##.."), this.fill_empty(".#...###....") ],
+            [ this.fill_empty("##.#"), this.fill_empty(".###...#") ],
+            [ this.fill_empty("...##..#"), this.fill_empty("...#...#..##") ] 
+        ]
+
+        // ....
+        // ...#
+        // ..##
+        this.before_shape = this.fill_empty("...#..##")
+        this.edge[this.before_shape + "O"] = [ 
+            [ this.fill_empty("##.#"), this.fill_empty("##..##..") ] 
+        ]
+        this.edge[this.before_shape + "S"] = [ 
+            [ this.fill_empty(".###"), this.fill_empty(".##.##..") ] 
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty(".###"), this.fill_empty("###..#..") ] 
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("#.....##"), this.fill_empty("#...###.....") ] 
+        ]
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("..#...##"), this.fill_empty("..#.###.....") ],
+            [ this.fill_empty("#.##"), this.fill_empty("###.#...") ],
+            [ this.fill_empty("#...#..#"), this.fill_empty("#...#...##..") ] 
+        ]
+
+        // ....
+        // ....
+        // ###.
+        this.before_shape = this.fill_empty("###.")
+        this.edge[this.before_shape + "I"] = [ 
+            [ this.fill_empty("...#...#...#"), this.fill_empty("...#...#...#...#") ] 
+        ]
+        this.edge[this.before_shape + "S"] = [ 
+            [ this.fill_empty("..#...##"), this.fill_empty("..#...##...#") ] 
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty("...#..##"), this.fill_empty("...#..##...#") ] 
+        ]
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("..##...#"), this.fill_empty("..##...#...#") ] 
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty(".###"), this.fill_empty(".###...#") ] 
+        ]
+
+        // ....
+        // ....
+        // .###
+        this.before_shape = this.fill_empty(".###")
+        this.edge[this.before_shape + "I"] = [ 
+            [ this.fill_empty("#...#...#..."), this.fill_empty("#...#...#...#...") ] 
+        ]
+        this.edge[this.before_shape + "Z"] = [ 
+            [ this.fill_empty(".#..##.."), this.fill_empty(".#..##..#...") ] 
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty("#...##.."), this.fill_empty("#...##..#...") ] 
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("##..#..."), this.fill_empty("##..#...#...") ] 
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("###."), this.fill_empty("###.#...") ] 
+        ]
+
+        // #...
+        // #...
+        // #...
+        this.before_shape = this.fill_empty("#...#...#...")
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty("#...#.#."), this.fill_empty("..#..###") ] 
+        ]
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("#...#..#"), this.fill_empty("...#.###") ],
+            [ this.fill_empty("#...##.."), this.fill_empty(".###.#..") ] 
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("#...##.."), this.fill_empty(".#...###") ],
+            [ this.fill_empty("#...#..#"), this.fill_empty(".###...#") ]
+        ]
+
+        // ...#
+        // ...#
+        // ...#
+        this.before_shape = this.fill_empty("...#...#...#")
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty("...#.#.#"), this.fill_empty(".#..###.") ] 
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("...##..#"), this.fill_empty("#...###.") ],
+            [ this.fill_empty("...#..##"), this.fill_empty("###...#.") ] 
+        ]
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("...#..##"), this.fill_empty("..#.###.") ], 
+            [ this.fill_empty("...##..#"), this.fill_empty("###.#...") ]
+        ]
+
+        // ....
+        // ....
+        // ##.#
+        this.before_shape = this.fill_empty("##.#")
+        this.edge[this.before_shape + "I"] = [ 
+            [ this.fill_empty("..#...#...#."), this.fill_empty("..#...#...#...#.") ] 
+        ]
+        this.edge[this.before_shape + "S"] = [ 
+            [ this.fill_empty(".#...##."), this.fill_empty(".#...##...#.") ] 
+        ]
+        this.edge[this.before_shape + "Z"] = [ 
+            [ this.fill_empty("..#..##."), this.fill_empty("..#..##...#.") ] 
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty(".###"), this.fill_empty(".###..#.") ],
+            [ this.fill_empty("..#...##"), this.fill_empty("..#...##..#.") ],
+            [ this.fill_empty("..#..##."), this.fill_empty("..#..##...#.") ] 
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("###."), this.fill_empty("###...#.") ],
+            [ this.fill_empty("..##..#."), this.fill_empty("..##..#...#.") ] 
+        ]
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty(".##...#."), this.fill_empty(".##...#...#.") ] 
+        ]
+
+        // ....
+        // ....
+        // #.##
+        this.before_shape = this.fill_empty("#.##")
+        this.edge[this.before_shape + "I"] = [ 
+            [ this.fill_empty(".#...#...#.."), this.fill_empty(".#...#...#...#..") ] 
+        ]
+        this.edge[this.before_shape + "S"] = [ 
+            [ this.fill_empty("#...##.."), this.fill_empty("#...##...#..") ] 
+        ]
+        this.edge[this.before_shape + "Z"] = [ 
+            [ this.fill_empty("..#..##."), this.fill_empty("..#..##..#..") ] 
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty("###."), this.fill_empty("###..#..") ],
+            [ this.fill_empty(".#..##.."), this.fill_empty(".#..##...#..") ],
+            [ this.fill_empty(".#...##."), this.fill_empty(".#...##..#..") ] 
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("##...#.."), this.fill_empty("##...#...#..") ] 
+        ]
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty(".###"), this.fill_empty(".###.#..") ],
+            [ this.fill_empty("##...#.."), this.fill_empty("##...#...#..") ] 
+        ]
+        
+        // ....
+        // ...#
+        // ##..        
+        this.before_shape = this.fill_empty("...###..")
+        this.edge[this.before_shape + "Z"] = [ 
+            [ this.fill_empty(".###"), this.fill_empty(".##...##") ] 
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty(".#..##.."), this.fill_empty(".#..###.") ] 
+        ]
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("..#.##.."), this.fill_empty("..#.###.....") ] 
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("#...##.."), this.fill_empty("#...###.....") ],
+            [ this.fill_empty("###."), this.fill_empty("###...#.") ] 
+        ]
+
+        // ....
+        // #...
+        // ..##        
+        this.before_shape = this.fill_empty("#.....##")
+        this.edge[this.before_shape + "S"] = [ 
+            [ this.fill_empty("###."), this.fill_empty(".##.##..") ] 
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty("..#...##"), this.fill_empty("..#..###....") ] 
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty(".#....##"), this.fill_empty(".#...###....") ] 
+        ]
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("...#..##"), this.fill_empty("...#.###....") ],
+            [ this.fill_empty(".###"), this.fill_empty(".###.#..") ] 
+        ]
+
+        // ....
+        // ##..
+        // .#..
+        this.before_shape = this.fill_empty("##...#..")
+        this.edge[this.before_shape + "O"] = [ 
+            [ this.fill_empty(".###"), this.fill_empty("..##..##") ] 
+        ]
+        this.edge[this.before_shape + "S"] = [ 
+            [ this.fill_empty("..#..#.#"), this.fill_empty("..#...##...#") ] 
+        ]
+        this.edge[this.before_shape + "Z"] = [ 
+            [ this.fill_empty("...#.##."), this.fill_empty("...#..##..#.") ],
+            [ this.fill_empty(".##..#.."), this.fill_empty(".##...##....") ] 
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty("...#.#.#"), this.fill_empty("...#..##...#") ],
+            [ this.fill_empty("..#..##."), this.fill_empty("..#...##..#.") ] 
+        ]
+
+        // ....
+        // ..##
+        // ..#.
+        this.before_shape = this.fill_empty("..##..#.")
+        this.edge[this.before_shape + "O"] = [ 
+            [ this.fill_empty("###."), this.fill_empty("##..##..") ] 
+        ]
+        this.edge[this.before_shape + "Z"] = [ 
+            [ this.fill_empty(".#..#.#."), this.fill_empty(".#..##..#...") ] 
+        ]
+        this.edge[this.before_shape + "S"] = [ 
+            [ this.fill_empty("#....##."), this.fill_empty("#...##...#..") ],
+            [ this.fill_empty(".##...#."), this.fill_empty(".##.##......") ] 
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty("#...#.#."), this.fill_empty("#...##..#...") ],
+            [ this.fill_empty(".#...##."), this.fill_empty(".#..##...#..") ] 
+        ]
+
+        // ....
+        // #...
+        // #.#.
+        this.before_shape = this.fill_empty("#...#.#.")
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("...##.#."), this.fill_empty("...#.###....") ],
+            [ this.fill_empty("###."), this.fill_empty(".###.#..") ]
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("#.##"), this.fill_empty(".###...#") ],
+            [ this.fill_empty(".#..#.#."), this.fill_empty(".#...###....") ]
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty("..#.#.#."), this.fill_empty("..#..###....") ] 
+        ]
+
+        // ....
+        // ...#
+        // .#.#
+        this.before_shape = this.fill_empty("...#.#.#")
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("#....#.#"), this.fill_empty("#...###.....") ],
+            [ this.fill_empty(".###"), this.fill_empty("###...#.") ]
+        ]
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("##.#"), this.fill_empty("###.#...") ],
+            [ this.fill_empty("..#..#.#"), this.fill_empty("..#.###.....") ]
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty(".#...#.#"), this.fill_empty(".#..###.....") ] 
+        ]
+
+        // ....
+        // .#..
+        // #..#
+        this.before_shape = this.fill_empty(".#..#..#")
+        this.edge[this.before_shape + "S"] = [ 
+            [ this.fill_empty(".###"), this.fill_empty("..##.##.") ] 
+        ]
+
+        // ....
+        // ..#.
+        // #..#
+        this.before_shape = this.fill_empty("..#.#..#")
+        this.edge[this.before_shape + "Z"] = [ 
+            [ this.fill_empty("###."), this.fill_empty("##...##.") ] 
+        ]
+
+        // ....
+        // .##.
+        // #...
+        this.before_shape = this.fill_empty(".##.#...")
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty(".###"), this.fill_empty("...#.###") ] 
+        ]
+
+        // ....
+        // .##.
+        // ...#
+        this.before_shape = this.fill_empty(".##....#")
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("###."), this.fill_empty("#...###.") ] 
+        ]
+
+        // ....
+        // ..#.
+        // ..##
+        this.before_shape = this.fill_empty("..#...##")
+        this.edge[this.before_shape + "O"] = [ 
+            [ this.fill_empty("###."), this.fill_empty("##..##..") ] 
+        ]
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("#...#.#."), this.fill_empty("#...#...##..") ] 
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty(".#...##."), this.fill_empty(".#...#..##..") ] 
+        ]
+
+        // ....
+        // .#..
+        // ##..
+        this.before_shape = this.fill_empty(".#..##..")
+        this.edge[this.before_shape + "O"] = [ 
+            [ this.fill_empty(".###"), this.fill_empty("..##..##") ] 
+        ]
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("..#..##."), this.fill_empty("..#...#...##") ] 
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("...#.#.#"), this.fill_empty("...#...#..##") ] 
+        ]
+
+        // ....
+        // ...#
+        // .##.
+        this.before_shape = this.fill_empty("...#.##.")
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("###."), this.fill_empty("###.#...") ],
+            [ this.fill_empty("..#..##."), this.fill_empty("..#.###.....") ]
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("#....##."), this.fill_empty("#...###.....") ] 
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty(".#...##."), this.fill_empty(".#..###.....") ] 
+        ]
+
+        // ....
+        // #...
+        // .##.
+        this.before_shape = this.fill_empty("#....##.")
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty(".#...##."), this.fill_empty(".#...###....") ],
+            [ this.fill_empty(".###"), this.fill_empty(".###...#") ]
+        ]
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("...#.##."), this.fill_empty("...#.###....") ] 
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty("..#..##."), this.fill_empty("..#..###....") ] 
+        ]
+
+        // ....
+        // ...#
+        // #.#.
+        this.before_shape = this.fill_empty("...##.#.")
+        this.edge[this.before_shape + "L"] = [ 
+            [ this.fill_empty("..#.#.#."), this.fill_empty("..#.###.....") ]
+        ]
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("#...#.#."), this.fill_empty("#...###.....") ]
+        ]
+        this.edge[this.before_shape + "T"] = [ 
+            [ this.fill_empty("###."), this.fill_empty("###..#..") ]
+        ]
+
+        // ....
+        // #...
+        // .#.#
+        this.before_shape = this.fill_empty("#....#.#")
+        this.edge[this.before_shape + "J"] = [ 
+            [ this.fill_empty("..#.#.#."), this.fill_empty("..#.###.....") ]
+        ]
+        
+
+        
+
+
+
 
 
 
