@@ -121,6 +121,8 @@ class Tetris{
 
     //ミノの形(座標)を取得
     get_mino_shape(){
+        console.log(this.active_mino_rotate_status)
+        console.log(this.state.active_mino_type)
         if(this.active_mino_rotate_status == 0){ //そのまま
             return this.mino_shapes[this.state.active_mino_type]
         }else if(this.active_mino_rotate_status == 1){ //1度右に回転
@@ -171,8 +173,7 @@ class Tetris{
         })
     }
 
-
-    //操作対象のミノをgrid_infoから削除
+     //操作対象のミノをgrid_infoから削除
     remove_mino_from_grid(){
         this.get_mino_shape().map( ([dy,dx]) =>{
             let y = this.active_mino_position_y + dy;
@@ -421,6 +422,8 @@ class Tetris{
             this.state.ren_cnt++;
             //ラインが消える描画をしたら,  そのあとupdate_minoで操作するミノを更新する.
             this.update_mino()
+            console.log("update_mino")
+            console.log(this.state.active_mino_type)
         }
 
     }
@@ -429,6 +432,7 @@ class Tetris{
     append_state_history(){
         this.state.mini_grid_info = this.get_mini_grid_info();
         this.history.push(JSON.parse(JSON.stringify(this.state)))
+        console.log(this.history)
     }
 
     //h行目が消えたかをbool型で返す
@@ -557,7 +561,64 @@ class Tetris{
         }
         return next_info;
     }
-    
+
+
+    //
+    // 以下選択モード用
+    //
+
+    set_mino_for_debug(){
+        for(let h=17; h<this.GRID_HEIGHT; h++){
+            for(let w=3; w<7; w++){
+                this.grid_info[h][w] = "empty"
+            }
+        }
+        
+        let seeds = [
+            [ [1,0], [2,0], [1,1] ],
+        ]
+
+        let seed = seeds[0];
+
+        seed.map(([dy,dx]) => {
+            this.grid_info[17+dy][3+dx] = "full";
+        })
+    }
+
+    assert_shape(){
+        //3x4のすべてのマスがグラフの想定と同じか確かめる.
+        let is_ok = ()=>{
+            
+            return true;
+        }
+        if(!is_ok()){
+            alert("想定とミノの配置が異なります.")
+        }
+    }
+
+    //パネルを選択した通りにドロップする.
+    drop_mino_by_panel(mino_shape, mino_type){
+        for(let dy=0; dy<4; dy++){
+            for(let dx=0; dx<4; dx++){
+                if(mino_shape[dy*4+dx] == "#"){
+                    this.grid_info[16+dy][3+dx] = mino_type;
+                }
+            }
+        }
+
+        this.drop();
+        this.clear_grid_top();
+        this.add_mino_to_grid();
+    }
+
+    //下の4x4より上部を一旦消す.
+    clear_grid_top(){
+        for(let y=0; y<this.GRID_HEIGHT-4; y++){
+            for(let x=3; x<7; x++){
+                this.grid_info[y][x] = "empty";
+            }
+        }
+    }
 }
 
 export default Tetris

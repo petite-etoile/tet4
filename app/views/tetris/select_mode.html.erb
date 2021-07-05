@@ -1,101 +1,30 @@
-<%= javascript_pack_tag( "select_mode") %>
 
+<h1 class="border-bottom border-dark">操作モード</h1>
+<div id="gameover" ></div>
+<%# <div class="row" style="height:100px"></div> %>
 
-<h1>選択モード</h1>
-
-
-
-<div class="grid"> 
-    <div class="row"> 
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
+<div class="main">
+    <div class="left-wrapper">
+        <div id="ren"> </div>
+        <div id="record-form"> </div>
+        <div id="retry"></div>
+        <div id="matta"></div>
+    </div>
+    <div class="tetris">
+        <div id="hold" class="hold-wrapper">  </div>
+        <div id="grid" class="grid-wrapper">  </div>
+        <div id="next" class="next-wrapper">  </div>
     </div>
 
-    <div class="row"> 
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
+    <div class="right-wrapper"> 
+        説明...
     </div>
 
-    <div class="row"> 
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-    </div>
+    <div class="row"> </div>
+    
+    <div id="choice"></div>
 
-    <div class="row"> 
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-    </div>
-
-    <div class="row"> 
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-    </div>
-
-    <div class="row"> 
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-    </div>
-
-    <div class="row"> 
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-    </div>
-
+    <div id="history"></div>
 </div>
 
+<%= javascript_pack_tag( "select_mode" ) %>

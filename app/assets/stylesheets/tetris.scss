@@ -241,6 +241,39 @@ input:valid{
     position:relative;
 }
 
+
+//以下選択モード用
+.choice-wrapper{
+    width:60%;
+    height:$cell-size * 7;
+    margin:0 auto;
+}
+
+.panel-wrapper{
+    display: flex;
+    justify-content: space-evenly;
+    height:$cell-size * 5;
+    width:100%;
+    margin:0 auto;
+    padding-top: $cell-size * 0.5;
+    padding-bottom: $cell-size * 0.5;
+}
+
+.panel{
+    cursor: pointer;
+    width: $cell-size * 4;
+}
+
+
+.hold-button{
+    // margin:0 auto !important;
+    // margin-left:auto;
+    // margin-right:auto;
+    margin:0 200px;
+}
+
+
+
 @media screen and (max-width: 1199px){
     .container{
         width:100%;

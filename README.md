@@ -69,3 +69,11 @@ https://ruemura3.com/2021/06/rails-destroy/#toc7
 * created_atを日本時間に
 
 https://qiita.com/tomo_k09/items/e4f19947d35890500492
+
+* onClickの関数に引数を渡す
+
+https://qiita.com/tsuuuuu_san/items/73747c8b6e6e28f6bd23
+
+* flex(CSS)
+
+https://qiita.com/takanorip/items/a51989312160530d89a1
