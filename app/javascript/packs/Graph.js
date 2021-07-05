@@ -51,7 +51,19 @@ class Graph{
         this.edge[this.before_shape + "J"] = [ [ this.fill_empty("#.##"), this.fill_empty("#...###.") ] ]
 
 
-        
+        // ....
+        // #...
+        // #..#
+        // this.before_shape = this.fill_empty("#...#..#")
+        // this.edge[this.before_shape + "O"] = [ [ this.fill_empty("###."), this.fill_empty("##..##..") ] ]
+
+
+
+
+        //全パターンに, Iを横向きにおく辺を追加
+
+
+
 
         this.print_edge()
     }

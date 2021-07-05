@@ -114,7 +114,7 @@ function Choice(props){
                 }
             </div>
 
-            <button className="btn btn-primary btn-lg  border border-secondary hold-button"  onClick={hold}> ホールド </button>
+            <button className="btn btn-primary btn-lg btn-block border border-secondary mt-2"  onClick={hold}> ホールド </button>
         </div>
     )
 }

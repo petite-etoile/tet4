@@ -244,9 +244,9 @@ input:valid{
 
 //以下選択モード用
 .choice-wrapper{
-    width:60%;
+    width:$tetris-width;
     height:$cell-size * 7;
-    margin:0 auto;
+    margin-left: $left-wrapper-width + 30px;
 }
 
 .panel-wrapper{
@@ -265,12 +265,6 @@ input:valid{
 }
 
 
-.hold-button{
-    // margin:0 auto !important;
-    // margin-left:auto;
-    // margin-right:auto;
-    margin:0 200px;
-}
 
 
 
