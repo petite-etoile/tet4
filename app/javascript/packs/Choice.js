@@ -100,6 +100,7 @@ function Choice(props){
     //     tetris.GAMEOVER();
     // }
 
+
     return (
         <div className="choice-wrapper">
             <div className="panel-wrapper">
@@ -114,7 +115,11 @@ function Choice(props){
                 }
             </div>
 
-            <button className="btn btn-primary btn-lg btn-block border border-secondary mt-2"  onClick={hold}> ホールド </button>
+            {
+                (tetris.state.holdable) ?
+                (<button className="btn btn-primary btn-lg btn-block border border-secondary mt-2"  onClick={hold}> ホールド </button>) :
+                (<button className="btn btn-secondary btn-lg btn-block border border-secondary mt-2"  onClick={hold}> ホールド </button>)
+            }
         </div>
     )
 }
