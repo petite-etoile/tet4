@@ -65,6 +65,11 @@ function Choice(props){
         props.render_all();
     }
 
+    function gameover(){
+        tetris.GAMEOVER();
+        props.render_about_gameover();
+    }
+
     let before_shape = ""
     for(let h=16; h<tetris.GRID_HEIGHT; h++){
         for(let w=3; w<7; w++){
@@ -96,9 +101,22 @@ function Choice(props){
     }
 
 
-    // if(choices.length == 0 && !tetris.holdable){
-    //     tetris.GAMEOVER();
-    // }
+    if(choices.length == 0){
+        if(!tetris.state.holdable){
+            console.log("今のミノは置けないし, ホールドもできないのでGAMEOVER")
+            gameover(); 
+        }else if( graph.edge[before_shape + tetris.state.hold_mino_type] == null ){
+            if(tetris.state.hold_mino_type == ""){
+                if(graph.edge[before_shape + tetris.state.next_array[0]] == null){
+                    console.log("今のミノは置けないし, ネクストも置けないのでGAMEOVER")
+                    gameover(); 
+                }
+            }else{
+                console.log("今のミノは置けないし, ホールドのミノも置けないのでGAMEOVER")
+                gameover(); 
+            }
+        }
+    }
 
 
     return (

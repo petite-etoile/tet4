@@ -11,12 +11,13 @@ import ResetButton from "./ResetButton.js"
 import MattaButton from "./MattaButton.js"
 import Choice from "./Choice.js"
 import Graph from "./Graph.js"
+import debug from "./debug.js"
 
 
 let tetris = new Tetris();
 let graph = new Graph();
 
-tetris.set_mino_for_debug();
+// tetris.set_mino_for_debug();
 
 
 
@@ -102,23 +103,27 @@ let render_matta_button = function(){
 
 let render_choise_buttons = function(){
     let dom = document.querySelector("#choice");
-    let el = (<Choice tetris={tetris} graph={graph} render_all={render_all}/>)
+    let el = (<Choice tetris={tetris} graph={graph} render_all={render_all} render_about_gameover={render_about_gameover}/>)
     ReactDOM.render(el, dom);
 }
+
+let render_about_gameover = function(){
+    render_record_form(tetris.state.ren_cnt);
+    render_gameover();
+    render_history();
+}
+
 
 let render_all = function(){
     render_grid();
     render_hold();
     render_next();
     render_REN_cnt();
-    render_record_form(tetris.state.ren_cnt);
-    render_gameover();
-    render_history();
     render_retry_button();
     render_matta_button();
     render_choise_buttons();
+    render_about_gameover();
 }
 
 //初期描画
-render_all();
 render_all();
