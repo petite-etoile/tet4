@@ -55,6 +55,9 @@ $zoom-ratio:1;
     .container-fluid{
         zoom: 0.3 !important;
     }
+    .cell{
+        border: solid 1px #555 !important;
+    }
 }
 
 @media screen and (max-width: 5000px){
