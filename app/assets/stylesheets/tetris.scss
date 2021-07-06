@@ -351,7 +351,10 @@ $zoom-ratio:1;
     }
     .mini{
         // zoom: 0.5 !important;
-        zoom: 5 !important;
+        zoom: 0.5 !important;
+    }
+    .cell{
+        border:solid 0px !important;
     }
 }
 
