@@ -11,7 +11,7 @@ function Next(props){
 
     return (
         <div>
-            <h6 className="text-center mt-2">Next</h6>
+            <div className="large text-center mt-2">Next</div>
             <div className="next-list">
 
                 {

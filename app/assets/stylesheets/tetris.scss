@@ -2,6 +2,40 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+$xx-large: xx-large;
+$x-large: x-large;
+$large: large;
+
+.xx-large{
+    font-size: $xx-large !important;
+}
+.x-large{
+    font-size: $x-large !important;
+}
+.large{
+    font-size: $large !important;
+}
+
+@media screen and (max-width: 1092px){
+    $xx-large: x-large;
+    $x-large: large;
+    $large: medium;
+    .container-fluid{
+        zoom: 0.6;
+    }
+
+}
+
+@media screen and (max-width: 500px){
+    $xx-large: medium;
+    $x-large: small;
+    $large: x-small;
+    .container-fluid{
+        zoom: 0.3 !important;
+    }
+}
+
+
 $cell-size: 30px;
 $grid-width: $cell-size * 10; //grid-size = 300px
 $tetris-height: $cell-size * 25;
@@ -21,6 +55,8 @@ $history-width: ($tetris-width * 5 + 70px)/3;
 
 $left-wrapper-width: 200px;
 $right-wrapper-width:250px;
+
+
 
 body{
     padding-top:80px;
@@ -177,7 +213,8 @@ body{
 .REN{
     width:100%;
     text-align: center;
-    font-size: xx-large;
+    font-size:  $xx-large;
+    font-weight: bold;
     margin-bottom: 30px;
 }
 
@@ -195,7 +232,8 @@ body{
 
 .record-message{
     width:100%;
-    font-size:large;
+    font-size:$large;
+    font-weight: bold;
     text-align: center;
     padding-top:35px;
     height: 100px;
@@ -215,7 +253,9 @@ body{
 .gameover-bar{
     height:50px;
     margin-bottom:20px;
-    font-size:xx-large;
+    font-size: $xx-large;
+    font-weight: bold;
+
 }
 
 input:invalid{
@@ -274,6 +314,9 @@ input:valid{
     margin:30px auto 0px auto;
     margin-left: auto;
     margin-right: auto;
+    font-size: $x-large;
+    color:cyan;
+    font-weight: bold;
 }
 
 
@@ -288,13 +331,3 @@ input:valid{
 
 
 
-@media screen and (max-width: 1092px){
-    .container-fluid{
-        zoom: 0.6;
-    }
-}
-@media screen and (max-width: 500px){
-    .container-fluid{
-        zoom: 0.3 !important;
-    }
-}

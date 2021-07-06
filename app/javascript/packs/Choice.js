@@ -66,7 +66,7 @@ function HoldPanel(props){
 
     return(
         <div className="hold hold-panel" onClick={hold}>
-            <h4 className="text-info">{mino_type=="" ? "Hold" : ""}</h4>
+            {mino_type=="" ? "Hold" : ""}
             {
                 hold_info.map((row,idx1)=>{
                     return(
