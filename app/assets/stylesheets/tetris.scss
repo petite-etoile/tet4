@@ -4,7 +4,7 @@
 
 $xx-large: 32px;
 $x-large: 24px;
-$large: 18px;
+$large: 16px;
 .xx-large{
     font-size: $xx-large !important;
 }
@@ -274,7 +274,7 @@ body{
 .non-record-message{
     width:100%;
     text-align: center;
-    padding-top:25px !important; 
+    padding:25px 10% 0 10% !important;
     height: 100px;
     background-color: #d4edda;
     margin-bottom: 30px;

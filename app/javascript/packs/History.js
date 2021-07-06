@@ -51,7 +51,7 @@ function History(props){
                             <div className="tetris mini ml-1 mt-1">
                                 <div className="hold-wrapper">
                                     <Hold hold={state.hold_mino_type} tetris={tetris}/>
-                                    <div className="float-left w-100 text-center text-danger">{state.ren_cnt}REN</div>
+                                    <div className="float-left w-100 text-center text-danger large">{state.ren_cnt}REN</div>
                                 </div>
                                 <div className="grid-wrapper ">
                                     <Grid grid_info={get_grid_info_from_mini_one(state.mini_grid_info, state.active_mino_type)} />
