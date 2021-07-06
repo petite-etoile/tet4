@@ -88,7 +88,7 @@ body{
     height: $hold-cell-size;
     width: $hold-cell-size;
     float: left;
-    border: solid #555 2px;
+    border: solid #555 1px;
 }
 
 .next-list{
@@ -116,7 +116,7 @@ body{
     height: $next-cell-size;
     width: $next-cell-size;
     float: left;
-    border: solid #555 2px;
+    border: solid #555 1px;
 }
 
 .grid{
@@ -130,7 +130,7 @@ body{
     height: $cell-size;
     width: $cell-size;
     float: left;
-    border: solid #555 2px;
+    border: solid #555 1px;
 }
 
 
@@ -349,8 +349,9 @@ $zoom-ratio:1;
     .container-fluid{
         zoom: 0.3 !important;
     }
-    .cell{
-        border: solid 1px #555 !important;
+    .mini{
+        // zoom: 0.5 !important;
+        zoom: 5 !important;
     }
 }
 
