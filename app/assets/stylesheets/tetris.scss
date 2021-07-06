@@ -2,72 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
-$xx-large: 32px;
-$x-large: 24px;
-$large: 16px;
-.xx-large{
-    font-size: $xx-large !important;
-}
-.x-large{
-    font-size: $x-large !important;
-}
-.large{
-    font-size: $large !important;
-}
-
-$zoom-ratio:1;
-@media screen and (max-width: 1092px){
-    $zoom-ratio: 0.6;
-    $xx-large: 32px*$zoom-ratio;
-    $x-large: 24px*$zoom-ratio;
-    $large: 16px*$zoom-ratio;
-    
-    .xx-large{
-        font-size: $xx-large !important;
-    }
-    .x-large{
-        font-size: $x-large !important;
-    }
-    .large{
-        font-size: $large !important;
-    }
-    
-    .container-fluid{
-        zoom: 0.6;
-    }
-
-}
-
-@media screen and (max-width: 500px){
-    $zoom-ratio: 0.3;
-    $xx-large: 32px*$zoom-ratio;
-    $x-large: 24px*$zoom-ratio;
-    $large: 16px*$zoom-ratio;
-    .xx-large{
-        font-size: $xx-large !important;
-    }
-    .x-large{
-        font-size: $x-large !important;
-    }
-    .large{
-        font-size: $large !important;
-    }
-    .container-fluid{
-        zoom: 0.3 !important;
-    }
-    .cell{
-        border: solid 1px #555 !important;
-    }
-}
-
-@media screen and (max-width: 5000px){
-    // $zoom-ratio: 0.0001;
-}
-
-
-
-
-
 
 
 
@@ -358,6 +292,72 @@ input:valid{
 .btn-shadow-4{
     box-shadow: 4px 4px black;
 }
+
+
+
+
+$xx-large: 32px;
+$x-large: 24px;
+$large: 16px;
+.xx-large{
+    font-size: $xx-large !important;
+}
+.x-large{
+    font-size: $x-large !important;
+}
+.large{
+    font-size: $large !important;
+}
+
+$zoom-ratio:1;
+@media screen and (max-width: 1092px){
+    $zoom-ratio: 0.6;
+    $xx-large: 32px*$zoom-ratio;
+    $x-large: 24px*$zoom-ratio;
+    $large: 16px*$zoom-ratio;
+    
+    .xx-large{
+        font-size: $xx-large !important;
+    }
+    .x-large{
+        font-size: $x-large !important;
+    }
+    .large{
+        font-size: $large !important;
+    }
+    
+    .container-fluid{
+        zoom: 0.6;
+    }
+
+}
+
+@media screen and (max-width: 500px){
+    $zoom-ratio: 0.3;
+    $xx-large: 32px*$zoom-ratio;
+    $x-large: 24px*$zoom-ratio;
+    $large: 16px*$zoom-ratio;
+    .xx-large{
+        font-size: $xx-large !important;
+    }
+    .x-large{
+        font-size: $x-large !important;
+    }
+    .large{
+        font-size: $large !important;
+    }
+    .container-fluid{
+        zoom: 0.3 !important;
+    }
+    .cell{
+        border: solid 1px #555 !important;
+    }
+}
+
+@media screen and (max-width: 5000px){
+    // $zoom-ratio: 0.0001;
+}
+
 
 
 
