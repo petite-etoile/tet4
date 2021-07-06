@@ -42,13 +42,12 @@ let render_next = function(){
 let render_REN_cnt = function(){
     let dom = document.querySelector("#ren");
     let el = (
-        <div className="REN">
+        <div className="REN xx-large">
             <div style={{color:"red", float:"left", paddingLeft:"30px"}}>{tetris.state.ren_cnt}</div> REN!!
         </div>
     )
     ReactDOM.render(el, dom);
 }
-
 
 let render_record_form = function(cnt){
     let dom = document.querySelector("#record-form")
@@ -57,9 +56,9 @@ let render_record_form = function(cnt){
         el = <Form ren_cnt={cnt}　tetris={tetris} render_record_form={render_record_form}/>
     }else if(tetris.is_gameover){
         if(tetris.state.ren_cnt >= tetris.need_score){
-            el = <div className="record-message alert-success"> 登録しました. </div>
+            el = <div className="record-message large alert-success"> 登録しました. </div>
         }else{
-            el = <div className="non-record-message alert alert-primary "> {tetris.need_score + "REN以上で,ランキングに登録できます."} </div>
+            el = <div className="non-record-message large alert alert-primary "> {tetris.need_score + "REN以上で,ランキングに登録できます."} </div>
         }
     }else{
         el = <div></div>
@@ -71,9 +70,9 @@ let render_gameover = function(){
     let dom = document.querySelector("#gameover")
     let el;
     if(tetris.is_gameover){
-        el = (<div className=" gameover-bar bg-warning text-danger text-center">GAME OVER</div>)
+        el = (<div className=" gameover-bar bg-warning text-danger text-center xx-large">GAME OVER</div>)
     }else{
-        el = (<div className=" gameover-bar  text-danger text-center"></div>)
+        el = (<div className=" gameover-bar  text-danger text-center xx-large"></div>)
     }
     ReactDOM.render(el, dom)
 }

@@ -5,6 +5,15 @@
 $xx-large: 32px;
 $x-large: 24px;
 $large: 18px;
+.xx-large{
+    font-size: $xx-large !important;
+}
+.x-large{
+    font-size: $x-large !important;
+}
+.large{
+    font-size: $large !important;
+}
 
 $zoom-ratio:1;
 @media screen and (max-width: 1092px){
@@ -236,7 +245,6 @@ body{
 .REN{
     width:100%;
     text-align: center;
-    font-size:  $xx-large;
     font-weight: bold;
     margin-bottom: 30px;
 }
@@ -255,7 +263,6 @@ body{
 
 .record-message{
     width:100%;
-    font-size:$large;
     font-weight: bold;
     text-align: center;
     padding-top:35px;
@@ -276,7 +283,6 @@ body{
 .gameover-bar{
     height:50px;
     margin-bottom:20px;
-    font-size: $xx-large;
     font-weight: bold;
 
 }
@@ -337,7 +343,6 @@ input:valid{
     margin:30px auto 0px auto;
     margin-left: auto;
     margin-right: auto;
-    font-size: $x-large;
     color:cyan;
     font-weight: bold;
 }
