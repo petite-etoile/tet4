@@ -2,15 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
-$xx-large: xx-large;
-$x-large: x-large;
-$large: large;
+$xx-large: 32px;
+$x-large: 24px;
+$large: 18px;
 
-
+$zoom-ratio:1;
 @media screen and (max-width: 1092px){
-    $xx-large: x-large;
-    $x-large: large;
-    $large: medium;
+    $zoom-ratio: 0.6;
     .container-fluid{
         zoom: 0.6;
     }
@@ -18,13 +16,14 @@ $large: large;
 }
 
 @media screen and (max-width: 500px){
-    $xx-large: medium;
-    $x-large: small;
-    $large: x-small;
+    $zoom-ratio: 0.3;
     .container-fluid{
         zoom: 0.3 !important;
     }
 }
+$xx-large: 32px*$zoom-ratio;
+$x-large: 24px*$zoom-ratio;
+$large: 18px*$zoom-ratio;
 
 
 .xx-large{
