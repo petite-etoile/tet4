@@ -54,21 +54,48 @@ function Panel(props){
     )
 }
 
+
+function HoldPanel(props){
+    const mino_type = props.tetris.state.hold_mino_type;
+    let hold_info = props.tetris.get_mino_info(mino_type, "hold")
+
+    function hold(){
+        props.tetris.hold();
+        props.render_all();
+    }
+
+    return(
+        <div className="hold hold-panel" onClick={hold}>
+            <h4 className="text-info">{mino_type=="" ? "Hold" : ""}</h4>
+            {
+                hold_info.map((row,idx1)=>{
+                    return(
+                        <div className="row" key={idx1.toString()}>
+                            {
+                                row.map((cell_info,idx2)=>{
+                                    return (
+                                        <div className={cell_info} key={idx1.toString() + "," + idx2.toString()}>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                    )
+                })
+            }
+        </div>
+    )
+}
+
+
+
 function Choice(props){
     const tetris = props.tetris;
     const graph = props.graph;
 
     
 
-    function hold(){
-        tetris.hold();
-        props.render_all();
-    }
-
-    function gameover(){
-        tetris.GAMEOVER();
-        props.render_about_gameover();
-    }
+    
 
     let before_shape = ""
     for(let h=16; h<tetris.GRID_HEIGHT; h++){
@@ -104,16 +131,16 @@ function Choice(props){
     if(choices.length == 0){
         if(!tetris.state.holdable){
             console.log("今のミノは置けないし, ホールドもできないのでGAMEOVER")
-            gameover(); 
+            tetris.GAMEOVER(); 
         }else if( graph.edge[before_shape + tetris.state.hold_mino_type] == null ){
             if(tetris.state.hold_mino_type == ""){
                 if(graph.edge[before_shape + tetris.state.next_array[0]] == null){
                     console.log("今のミノは置けないし, ネクストも置けないのでGAMEOVER")
-                    gameover(); 
+                    tetris.GAMEOVER(); 
                 }
             }else{
                 console.log("今のミノは置けないし, ホールドのミノも置けないのでGAMEOVER")
-                gameover(); 
+                tetris.GAMEOVER(); 
             }
         }
     }
@@ -133,10 +160,8 @@ function Choice(props){
                 }
             </div>
 
-            {
-                (tetris.state.holdable) ?
-                (<button className="btn btn-primary btn-lg btn-block border border-secondary mt-2"  onClick={hold}> ホールド </button>) :
-                (<button className="btn btn-secondary btn-lg btn-block border border-secondary mt-2"  onClick={hold}> ホールド </button>)
+            {   
+                 <HoldPanel render_all={props.render_all} tetris={tetris}/>
             }
         </div>
     )

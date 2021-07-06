@@ -245,7 +245,7 @@ input:valid{
 //以下選択モード用
 .choice-wrapper{
     width:$tetris-width;
-    height:$cell-size * 7;
+    height:$cell-size * 10;
     margin-left: $left-wrapper-width + 30px;
 }
 
@@ -261,9 +261,29 @@ input:valid{
 
 .panel{
     cursor: pointer;
-    width: $cell-size * 4;
+    width: $cell-size * 4 + 30px;
+    height: $cell-size * 4 + 3px;
+    padding-left: 27px;
+    border :solid  2px black;
+    box-shadow: 4px 4px;
 }
 
+.hold-panel{
+    box-shadow: 4px 4px black;
+    cursor: pointer;
+    margin:30px auto 0px auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.btn-shadow-2{
+    box-shadow: 2px 2px black;
+}
+
+.btn-shadow-4{
+    box-shadow: 4px 4px black;
+}
 
 
 

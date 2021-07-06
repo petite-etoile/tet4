@@ -9,9 +9,9 @@ function MattaButton(props) {
     }
 
     if(tetris.history.length < 2){
-        return( <button className="btn btn-secondary btn-lg btn-block border border-secondary mb-1" onClick={tetris_matta}>待った!</button> )
+        return( <button className="btn btn-secondary btn-lg btn-block border border-secondary mb-1 btn-shadow-2" onClick={tetris_matta}>待った!</button> )
     }else{
-        return( <button className="btn btn-success btn-lg btn-block border border-secondary mb-1" onClick={tetris_matta}>待った!</button> )
+        return( <button className="btn btn-success btn-lg btn-block border border-secondary mb-1 btn-shadow-2" onClick={tetris_matta}>待った!</button> )
     }
     
 }

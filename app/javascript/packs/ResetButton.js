@@ -8,7 +8,7 @@ function ResetButton(props){
         props.render_all();
     }
     return (
-        <button className="btn btn-warning btn-lg btn-block border border-secondary mb-1" onClick={tetris_initialize}>Retry!</button>
+        <button className="btn btn-warning btn-lg btn-block border border-secondary mb-1 btn-shadow-2" onClick={tetris_initialize}>Retry!</button>
     )
 }
 
