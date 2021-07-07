@@ -366,8 +366,10 @@ $large: 16px;
     }
 }
 
-@media screen and (max-width: 5000px){
-    // $zoom-ratio: 0.0001;
+@media screen and (min-width: 1000px){
+    .for-small{
+        display: none;
+    }
 }
 
 
