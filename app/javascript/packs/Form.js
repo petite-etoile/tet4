@@ -50,10 +50,10 @@ function Form(props){
         return(
             <div className="alert alert-primary w-100" style={{height:"130px"}}>
                 <form onSubmit={doSubmit}>
-                    <div className="form-group">
-                        <label > ランキングに登録</label>
-                        <input type="text" className="form-control" onChange={doChange} required maxLength="20" placeholder="名前を入力" value=""/>
-                        <input type="submit" className="btn btn-primary float-right" value="登録" />
+                    <div className="form-group large">
+                        <label className=""> ランキングに登録</label>
+                        <input type="text" className="form-control " onChange={doChange} required maxLength="20" placeholder="名前を入力" value=""/>
+                        <input type="submit" className="btn btn-primary float-right " value="登録" />
                     </div>
                 </form>
             </div>
