@@ -1,14 +1,16 @@
-ranking
-<table class="table table-dark table-bordered table-striped table-hover large">
-    <tr class=" text-center">
+<h1 class="xx-large border-bottom border-dark pb-1">Ranking</h1>
+<table class="table table-bordered large table-striped border-top border mt-4">
+    <thead class=" text-center table-dark">
         <th>名前</th> <th>スコア</th> <th>日時</th> 
-    </tr>
+    </thead>
 
-    <% @data.each do |obj| %>
-        <tr>
-            <td class="text-center"> <%= obj.name %> </td>
-            <td class="text-right"> <%= "#{obj.score}REN" %> </td>
-            <td class="text-center "> <%= obj.created_at %> </td>
-        </tr>
-    <% end %>
+    <tbody class="table-hover table light">
+        <% @data.each_with_index do |obj, idx| %>
+            <tr>
+                <td class="text-center "> <%= obj.name %> </td>
+                <td class="text-right  <%= @color_for_data[idx]%>"> <%= "#{obj.score}REN" %> </td>
+                <td class="text-center "> <%= obj.created_at %> </td>
+            </tr>
+        <% end %>
+    </tbody>
 </table>

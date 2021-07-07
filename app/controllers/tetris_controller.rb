@@ -17,10 +17,27 @@ class TetrisController < ApplicationController
   def ranking
     @page = "ranking"
     @data = Ranking.all.order("score desc")
+    colors = ["gray", "brown", "green", "cyan", "blue", "yellow", "orange", "red"]
+    @color_for_data = Array.new(@data.size(), "")
+    
+    @data.each_with_index do |obj, data_idx|
+      (0...colors.size).each do |col_idx|
+        if(obj.score <  30 + (20 * col_idx))
+          @color_for_data[data_idx] = colors[col_idx]
+          break
+        end
+      end
+      
+      if(@color_for_data[data_idx] == "")
+        @color_for_data[data_idx] = colors.last()
+      end
+    end
+
+    p @color_for_data
   end
   
   def add_record
-    # p params
+    p params
     @ranking = Ranking.new(name: params[:name], score: params[:score])
     if @ranking.save()
       res = {

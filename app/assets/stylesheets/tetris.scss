@@ -340,6 +340,37 @@ $large: 16px;
 //     }
 // }
 
+
+
+
+//ランキング用
+.gray{
+    color:gray;
+}
+.brown{
+    color: #804000;
+}
+.green{
+    color: green;
+}
+.cyan{
+    color: #00C0C0;
+}
+.blue{
+    color: blue;
+}
+.yellow{
+    color: #C0C000;    
+}
+.orange{
+    color: #FF8000;
+}
+.red{
+    color: red;    
+}
+
+
+
 @media screen and (max-width: 500px){
     $zoom-ratio: 0.3;
     $xx-large: 32px*$zoom-ratio;
