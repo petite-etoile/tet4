@@ -51,7 +51,6 @@ let render_REN_cnt = function(){
     ReactDOM.render(el, dom);
 }
 
-
 let render_record_form = function(cnt){
     let dom = document.querySelector("#record-form")
     let el;
@@ -90,11 +89,6 @@ let render_history = function(){
     }
     ReactDOM.render(el, dom);
 }
-
-
-
-
-
 
 let render_retry_button = function(){
     let dom = document.querySelector("#retry")

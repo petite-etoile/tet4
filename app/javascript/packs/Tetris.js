@@ -519,6 +519,7 @@ class Tetris{
         this.history.pop(); //最後の履歴を削除
         this.restore_to_before_state(this.history[this.history.length - 1]);
         this.is_gameover = false;
+        this.record_enabled = false;
     }
 
     //ミノの形を2次元GRID形式で返す
