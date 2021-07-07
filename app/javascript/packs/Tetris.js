@@ -21,7 +21,7 @@ class Tetris{
 
     
     player_name = "";
-    need_score = 5;
+    need_score = 25;
     
     GRID_HEIGHT = 20;
     GRID_WIDTH = 10;
