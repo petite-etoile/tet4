@@ -4,6 +4,10 @@ class TetrisController < ApplicationController
   skip_before_action :verify_authenticity_token
   def index
     @page = "index"
+    @access_count = 0
+    AccessCounter.all.each do |obj|
+      @access_count += obj.cnt;
+    end
   end
 
   def select_mode
