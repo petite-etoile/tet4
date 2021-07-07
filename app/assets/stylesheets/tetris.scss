@@ -17,7 +17,7 @@ $next-cell-size: 15px;
 $next-size: $next-cell-size * 5;
 //next-size = 75px
 
-$tetris-width: 1.2 * ($hold-size + $grid-width + $next-size + 10);
+$tetris-width: 1.2 * ($hold-size + $grid-width + $next-size + 20);
 
 
 $history-width: ($tetris-width * 5 + 70px)/3;
