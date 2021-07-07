@@ -51,9 +51,9 @@ function Form(props){
             <div className="alert alert-primary w-100" style={{height:"130px"}}>
                 <form onSubmit={doSubmit}>
                     <div className="form-group large">
-                        <label className=""> ランキングに登録</label>
-                        <input type="text" className="form-control " onChange={doChange} required maxLength="20" placeholder="名前を入力" value=""/>
-                        <input type="submit" className="btn btn-primary float-right " value="登録" />
+                        <label > ランキングに登録</label>
+                        <input type="text" className="form-control large" onChange={doChange} required maxLength="20" placeholder="名前を入力" value=""/>
+                        <input type="submit" className="btn btn-primary float-right large" value="登録" />
                     </div>
                 </form>
             </div>
@@ -62,10 +62,10 @@ function Form(props){
         return(
             <div className="alert alert-primary w-100" style={{height:"130px"}}>
                 <form onSubmit={doSubmit}>
-                    <div className="form-group">
+                    <div className="form-group large">
                         <label > ランキングに登録</label>
-                        <input type="text" className="form-control" onChange={doChange} required maxLength="20" value={name || " "}/>
-                        <input type="submit" className="btn btn-primary float-right" value="登録" />
+                        <input type="text" className="form-control large" onChange={doChange} required maxLength="20" value={name || " "}/>
+                        <input type="submit" className="btn btn-primary float-right large" value="登録" />
                     </div>
                 </form>
             </div>
