@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_30_054040) do
+ActiveRecord::Schema.define(version: 2021_07_07_133842) do
+
+  create_table "access_counters", force: :cascade do |t|
+    t.text "url"
+    t.integer "cnt"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "rankings", force: :cascade do |t|
     t.text "name"

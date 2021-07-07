@@ -1,0 +1,2 @@
+class AccessCounter < ApplicationRecord
+end

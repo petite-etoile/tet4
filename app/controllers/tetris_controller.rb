@@ -55,6 +55,29 @@ class TetrisController < ApplicationController
     render json:res
   end
 
+  def count_access
+    p params
+
+    obj = AccessCounter.find_by(url: params[:url])
+    if(obj  == nil )
+      obj = AccessCounter.new(url: params[:url], cnt: 1)
+      if obj.save()
+        p "新しいrefを登録成功"
+      else
+        p "新しいrefを登録失敗"
+      end
+      
+    else
+      AccessCounter.update(url: params[:url], cnt: obj.cnt + 1)
+    end
+
+    p "アクセスデータ"
+    AccessCounter.all.each do |obj|
+      p "url: #{obj.url}, count: #{obj.cnt}"
+    end
+
+  end
+
   def record_params
     return params.require(:ranking).permit(:name, :score)
   end
