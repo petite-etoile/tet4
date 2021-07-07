@@ -56,7 +56,7 @@ let render_record_form = function(cnt){
         el = <Form ren_cnt={cnt}　tetris={tetris} render_record_form={render_record_form}/>
     }else if(tetris.is_gameover){
         if(tetris.state.ren_cnt >= tetris.need_score){
-            el = <div className="record-message large alert-success"> 登録しました. </div>
+            el = <div className="record-message large alert alert-success"> 登録しました. </div>
         }else{
             el = <div className="non-record-message large alert alert-primary "> {tetris.need_score + "REN以上で,ランキングに登録できます."} </div>
         }

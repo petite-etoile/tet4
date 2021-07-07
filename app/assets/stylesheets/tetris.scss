@@ -197,6 +197,12 @@ body{
     text-align: center;
 }
 
+.record-form{
+    padding:15px 10% 0 10% !important;
+    height: 130px;
+    font-weight: bold;
+
+}
 
 .record-message{
     width:100%;
@@ -204,7 +210,7 @@ body{
     text-align: center;
     padding:35px 10% 0 10% !important;
     height: 100px;
-    background-color: skyblue;
+    // background-color: skyblue;
     margin-bottom: 30px;
 }
 
@@ -213,7 +219,7 @@ body{
     text-align: center;
     padding:25px 10% 0 10% !important;
     height: 100px;
-    background-color: #d4edda;
+    // background-color: #d4edda;
     margin-bottom: 30px;
 }
 

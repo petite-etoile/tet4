@@ -48,7 +48,7 @@ function Form(props){
 
     if(name == ""){
         return(
-            <div className="alert alert-primary w-100" style={{height:"130px"}}>
+            <div className="alert alert-primary large record-form">
                 <form onSubmit={doSubmit}>
                     <div className="form-group large">
                         <label > ランキングに登録</label>
@@ -60,7 +60,7 @@ function Form(props){
         )
     }else{
         return(
-            <div className="alert alert-primary w-100" style={{height:"130px"}}>
+            <div className="alert alert-primary large record-form">
                 <form onSubmit={doSubmit}>
                     <div className="form-group large">
                         <label > ランキングに登録</label>
