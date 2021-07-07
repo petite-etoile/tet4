@@ -146,25 +146,32 @@ function Choice(props){
     }
 
 
-    return (
-        <div className="choice-wrapper">
-            <div className="panel-wrapper">
-                {
-                    choices.map((mino_shape, idx) => {
-                        return(
-                            <React.Fragment key={idx}>
-                                <Panel before_shape={before_shape} mino_shape={mino_shape} mino_type={tetris.state.active_mino_type} tetris={tetris} render_all={props.render_all}/>
-                            </React.Fragment>
-                        )
-                    })
+    if(tetris.is_gameover){
+        return (
+            <div></div>
+        )
+    }else{
+        return (
+            <div className="choice-wrapper">
+                <div className="panel-wrapper">
+                    {
+                        choices.map((mino_shape, idx) => {
+                            return(
+                                <React.Fragment key={idx}>
+                                    <Panel before_shape={before_shape} mino_shape={mino_shape} mino_type={tetris.state.active_mino_type} tetris={tetris} render_all={props.render_all}/>
+                                </React.Fragment>
+                            )
+                        })
+                    }
+                </div>
+    
+                {   
+                     <HoldPanel render_all={props.render_all} tetris={tetris}/>
                 }
             </div>
+        )
+    }
 
-            {   
-                 <HoldPanel render_all={props.render_all} tetris={tetris}/>
-            }
-        </div>
-    )
 }
 
 export default Choice;

@@ -75,6 +75,7 @@ let render_gameover = function(){
         el = (<div className=" gameover-bar  text-danger text-center xx-large"></div>)
     }
     ReactDOM.render(el, dom)
+
 }
 
 let render_history = function(){
