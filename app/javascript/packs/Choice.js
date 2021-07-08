@@ -68,7 +68,7 @@ function HoldPanel(props){
         <div className="hold hold-panel x-large" onClick={hold}>
             {
                 mino_type=="" 
-                    ? <div className="w-100 text-center x-large"> Hold </div>
+                    ? <div className="w-75 text-center x-large"> Hold </div>
                     : <div></div>
             }
             {
