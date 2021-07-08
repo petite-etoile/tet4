@@ -11,6 +11,7 @@ import ResetButton from "./ResetButton.js"
 import MattaButton from "./MattaButton.js"
 import Choice from "./Choice.js"
 import Graph from "./Graph.js"
+import BestWay from "./BestWay.js"
 import debug from "./debug.js"
 
 
@@ -113,10 +114,18 @@ let render_about_gameover = function(){
     render_history();
 }
 
+let render_best_way = function(){
+    let dom = document.querySelector("#bestway");
+    let el = (<BestWay tetris={tetris} graph={graph}/>)
+    ReactDOM.render(el, dom);
+}
+
+
 let render_all = async function(){
     await first_render();
     await second_render();
 }
+
 
 let first_render = async function(){
     render_grid();
@@ -126,10 +135,13 @@ let first_render = async function(){
     render_retry_button();
     render_matta_button();
     render_choise_buttons();
+    render_best_way();
 }
 
 let second_render = async function(){
     render_about_gameover();
 }
+
+
 //初期描画
 render_all();

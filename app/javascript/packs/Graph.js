@@ -513,7 +513,7 @@ class Graph{
                 }
             }
 
-            debug(this.format(this.before_shape))
+            // debug(this.format(this.before_shape))
 
             //Iミノを横に置いたときのy座標(16基準)
             let I_position_h = 0;

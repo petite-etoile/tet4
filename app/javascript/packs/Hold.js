@@ -4,7 +4,6 @@ import Cell from "./Cell.js"
 //ホールドを表示するコンポーネント
 function Hold(props){
     let hold_mino_type = props.hold
-    console.log(hold_mino_type)
     let hold_info = props.tetris.get_mino_info(hold_mino_type, "hold")
     
     return(
