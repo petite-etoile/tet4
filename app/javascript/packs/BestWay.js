@@ -4,6 +4,7 @@ import debug from "./debug.js"
 import Hold from "./Hold.js"
 import Next from "./Next.js"
 import Grid from "./Grid.js"
+import { shape } from "prop-types"
 
 
 
@@ -125,7 +126,13 @@ function get_state_after_drop(before_state, after_shape) {
     after_state.ren_cnt++;
     after_state.holdable = true;
     if(after_state.next_array.length == 0){
-        after_state.active_mino_type = "";
+        if(after_state.hold_mino_type == ""){
+            after_state.active_mino_type = "";
+        }else{
+            after_state.active_mino_type = after_state.hold_mino_type;
+            after_state.hold_mino_type = 0;
+            //いろんなかんけいで　holdable = falseにしない
+        }
     }else{
         after_state.active_mino_type = after_state.next_array.shift();
     }
@@ -149,6 +156,8 @@ function get_state_after_hold(before_state){
     after_state.holdable = false;
     return after_state
 }
+
+
 
 function BestWays(props){
     const tetris = props.tetris
@@ -206,32 +215,128 @@ function BestWays(props){
         if(is_leaf){
             path_list.push(path);
         }
+    })
+
+    const get_shape_score = ((mini_grid_info) => {
+        let shape = ""
+        for(let h=0; h<4; h++){
+            for(let w=0; w<4; w++){
+                if(mini_grid_info[h][w] == "empty"){
+                    shape += "."
+                }else{
+                    shape += "#"
+                }
+            }
+        }
+
+        const minos = ["I", "O", "S", "Z", "J", "L", "T"]
         
-
-
+        let score = 0;
+        for(const mino of minos){
+            if(graph.edge[shape + mino] != null){
+                score++;
+            }
+        }
+        return score;
     })
 
 
+    //拡張グラフ(DAG)上でのbfsで, 一番繋がるルートを(複数)取得する.
+    const get_max_path_list = (() => {
+        let queue = [first_state]
+        let move_from = {} //これを, 複数あれする
+        let leaf_list = []
 
-    let path_list = []
-    dfs([first_state]); //深さ優先探索で一番RENが繋がるルートを求める.
+        let max_ren_cnt = 0;
+        let max_shape_score = 0;
 
-    let max_path_list = [];
-    let max_ren_cnt = 0;
+        while(queue.length > 0){
+            const before_state = queue.shift();
+            // debug(queue)
+            
+            let graph_key = encode_state_to_graph_key(before_state, graph);
 
-    console.log(path_list)
-    for(const path of path_list){
-        const ren_cnt = path[path.length-1].ren_cnt;
-        console.log([ren_cnt, max_ren_cnt])
-        if(ren_cnt == max_ren_cnt){
-            max_path_list.push(path)
-        }else if(ren_cnt > max_ren_cnt){
-            max_path_list = [path];
-            max_ren_cnt = ren_cnt;
+            if(before_state.active_mino_type != ""){
+                if(graph.edge[graph_key] != null){
+                    for(const to of graph.edge[graph_key]){
+                        const mid_state = get_state_during_dropping(before_state, to[1]);
+                        if(move_from[JSON.stringify(mid_state)]== null){
+                            move_from[JSON.stringify(mid_state)]= [JSON.parse(JSON.stringify(before_state))];
+                        }else{
+                            // move_from[JSON.stringify(mid_state)]= [JSON.parse(JSON.stringify(before_state))];
+                        }
+                        
+                        const after_state = get_state_after_drop(before_state, to[0]);
+                        if(move_from[JSON.stringify(after_state)] == null){
+                            move_from[JSON.stringify(after_state)] = [JSON.parse(JSON.stringify(mid_state))];
+                        }
+
+                        queue.push(JSON.parse(JSON.stringify(after_state)));
+                    }
+                }
+
+                if(before_state.holdable){
+                    const after_state = get_state_after_hold(before_state);
+                    if(move_from[JSON.stringify(after_state)] == null){
+                        move_from[JSON.stringify(after_state)] = [JSON.parse(JSON.stringify(before_state))];
+                    }
+
+                    queue.push(JSON.parse(JSON.stringify(after_state)));
+                }
+            }
+
+            if(before_state.holdable){
+                const shape_score = get_shape_score(before_state.mini_grid_info);
+                if(max_ren_cnt < before_state.ren_cnt){
+                    max_ren_cnt = before_state.ren_cnt;
+                    max_shape_score = shape_score;
+                    leaf_list = [before_state];
+                }else if(max_ren_cnt == before_state.ren_cnt){
+                    if(max_shape_score > shape_score){
+                        max_shape_score = shape_score;
+                        leaf_list = [before_state];
+                    }else if(max_shape_score == shape_score){
+                        leaf_list.push( before_state );
+                    }
+                }
+            }
         }
-    }
+        debug(move_from)
 
-    
+        debug("max_ren_cnt " + max_ren_cnt)
+
+
+        //終わりの状態から, 再帰的に遡ることで, 消す手順を得る.
+        let path_list = []
+        const rec = ((path) => {
+            const after_state = path[path.length-1];
+            if(move_from[JSON.stringify(after_state)]){
+                // debug(" ")
+                // debug((after_state))
+                // debug("⬇️")
+                // debug(move_from[JSON.stringify(after_state)])
+                 
+                for(const before_state of move_from[JSON.stringify(after_state)]){
+                    path.push(JSON.parse(JSON.stringify(before_state)));
+                    rec(path);
+                    path.pop();
+                }
+            }else{
+                path_list.push(JSON.parse(JSON.stringify(path)).reverse());
+            }
+        });
+
+        for(const leaf_state of leaf_list){
+            rec([leaf_state]);
+            // break;
+        }
+
+        return path_list;
+    })
+
+
+    let max_path_list = get_max_path_list()
+
     return(
         <div>
             {
