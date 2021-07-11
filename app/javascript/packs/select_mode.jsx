@@ -135,7 +135,7 @@ let first_render = async function(){
     render_retry_button();
     render_matta_button();
     render_choise_buttons();
-    // render_best_way();
+    render_best_way();
 }
 
 let second_render = async function(){

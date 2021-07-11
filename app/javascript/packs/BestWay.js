@@ -29,16 +29,20 @@ function Path(props){
         }
 
         //4x3のmini_grid_infoの情報を反映
+        let is_dropping = false; //ドロップ中の描画かどうかのフラグ
         for(let dy=0; dy<4; dy++){
             for(let dx=0; dx<4; dx++){
                 grid_info[16+dy][3+dx] = mini_grid_info[dy][dx];
+                if(mini_grid_info[dy][dx] != "full" && mini_grid_info[dy][dx] != "empty"){
+                    is_dropping = true;
+                }
             }
         }
 
         //ミノの描画
         const active_mino_position_x = (active_mino_type=="O") ? 4 : 3; 
         const active_mino_position_y = 0;
-        if(active_mino_type != ""){
+        if(active_mino_type != "" && !is_dropping){
             tetris.mino_shapes[active_mino_type].map(([dy,dx])=>{
                 let y = active_mino_position_y + dy;
                 let x = active_mino_position_x + dx;
@@ -189,34 +193,7 @@ function BestWays(props){
     const graph = props.graph;
 
 
-    //拡張グラフ(DAG)上でのdfs
-    const dfs = ((path) => {
-        const before_state = path[path.length-1];
-        
-        let graph_key = encode_state_to_graph_key(before_state, graph);
-
-        let is_leaf = true;
-        if(before_state.active_mino_type != ""){
-            if(graph.edge[graph_key] != null){
-                for(const to of graph.edge[graph_key]){
-                    const mid_state = get_state_during_dropping(before_state, to[1]);
-                    const after_state = get_state_after_drop(before_state, to[0]);
-                    dfs(path.concat([mid_state, after_state]));
-                    is_leaf = false;
-                }
-            }
-            if(before_state.holdable){
-                const after_state = get_state_after_hold(before_state);
-                dfs(path.concat([after_state]));
-                is_leaf = false;
-            }
-        }
-
-        if(is_leaf){
-            path_list.push(path);
-        }
-    })
-
+    
     const get_shape_score = ((mini_grid_info) => {
         let shape = ""
         for(let h=0; h<4; h++){
@@ -252,7 +229,7 @@ function BestWays(props){
 
         while(queue.length > 0){
             const before_state = queue.shift();
-            // debug(queue)
+            debug(queue)
             
             let graph_key = encode_state_to_graph_key(before_state, graph);
 
@@ -301,10 +278,6 @@ function BestWays(props){
                 }
             }
         }
-        debug(move_from)
-
-        debug("max_ren_cnt " + max_ren_cnt)
-
 
         //終わりの状態から, 再帰的に遡ることで, 消す手順を得る.
         let path_list = []
@@ -327,6 +300,7 @@ function BestWays(props){
         });
 
         for(const leaf_state of leaf_list){
+            debug(leaf_state)
             rec([leaf_state]);
             // break;
         }
