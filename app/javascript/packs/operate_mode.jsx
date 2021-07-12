@@ -9,6 +9,8 @@ import Hold from "./Hold.js"
 import History from "./History.js"
 import ResetButton from "./ResetButton.js"
 import MattaButton from "./MattaButton.js"
+import Graph from "./Graph.js"
+import BestButton from "./BestButton.js"
 
 
 
@@ -20,6 +22,7 @@ import MattaButton from "./MattaButton.js"
 
 
 let tetris = new Tetris();
+let graph = new Graph();
 
 tetris.initialize()
 
@@ -102,6 +105,18 @@ let render_matta_button = function(){
     ReactDOM.render(el, dom);
 }
 
+let render_best_button = function(){
+    let dom = document.querySelector("#best");
+    let el = (<BestButton tetris={tetris} graph={graph}/>)
+    ReactDOM.render(el, dom);
+}
+
+let remove_best_ways = function(){
+    let dom = document.querySelector("#bestway");
+    let el = (<div></div>);
+    ReactDOM.render(el, dom);
+}
+
 let render_all = function(){
     render_grid();
     render_hold();
@@ -112,6 +127,8 @@ let render_all = function(){
     render_history();
     render_retry_button();
     render_matta_button();
+    remove_best_ways();
+    render_best_button();
 }
 
 

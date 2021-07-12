@@ -45,7 +45,7 @@ body{
     float:left;
     height:$tetris-height;
     width:$tetris-width;
-    background-color:lightpink;
+    background-color:lightskyblue;
     border:solid black 3px; 
 }
 
@@ -71,7 +71,7 @@ body{
     width: $hold-size;
     height: $hold-size;
     background-color: black;
-    border: solid cyan 3px;
+    border: solid lawngreen 3px;
     padding-left:20px;
     padding-top:25px;
     // margin-top:10px;
@@ -99,7 +99,7 @@ body{
     width: $next-size;
     height: $next-size;
     background-color: black;
-    border: solid cyan 3px;
+    border: solid lawngreen 3px;
     padding-left:20px;
     padding-top:25px;
     margin-left:auto;
@@ -290,7 +290,7 @@ input:valid{
     margin:30px auto 0px auto;
     margin-left: auto;
     margin-right: auto;
-    color:cyan;
+    color:lawngreen;
     font-weight: bold;
 }
 
@@ -308,10 +308,12 @@ input:valid{
 //ベストな繋げ方用
 
 .path{
+    width:$history-width;
     overflow: scroll;
     background-color: orange;
-    margin-bottom:30px;
+    margin-top:30px;
     height: 600px;
+    margin:0 auto;
 }
 
 

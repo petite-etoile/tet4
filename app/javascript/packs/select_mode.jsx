@@ -11,7 +11,7 @@ import ResetButton from "./ResetButton.js"
 import MattaButton from "./MattaButton.js"
 import Choice from "./Choice.js"
 import Graph from "./Graph.js"
-import BestWay from "./BestWay.js"
+import BestButton from "./BestButton.js"
 import debug from "./debug.js"
 
 
@@ -114,18 +114,22 @@ let render_about_gameover = function(){
     render_history();
 }
 
-let render_best_way = function(){
-    let dom = document.querySelector("#bestway");
-    let el = (<BestWay tetris={tetris} graph={graph}/>)
+let render_best_button = function(){
+    let dom = document.querySelector("#best");
+    let el = (<BestButton tetris={tetris} graph={graph}/>)
     ReactDOM.render(el, dom);
 }
 
+let remove_best_ways = function(){
+    let dom = document.querySelector("#bestway");
+    let el = (<div></div>);
+    ReactDOM.render(el, dom);
+}
 
 let render_all = async function(){
     await first_render();
     await second_render();
 }
-
 
 let first_render = async function(){
     render_grid();
@@ -135,7 +139,8 @@ let first_render = async function(){
     render_retry_button();
     render_matta_button();
     render_choise_buttons();
-    render_best_way();
+    remove_best_ways();
+    render_best_button();
 }
 
 let second_render = async function(){

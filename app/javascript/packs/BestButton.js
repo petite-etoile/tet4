@@ -1,10 +1,9 @@
 import React, {useState} from "react"
-import GridState from "./GridState.js"
+import ReactDOM from "react-dom"
 import debug from "./debug.js"
 import Hold from "./Hold.js"
 import Next from "./Next.js"
 import Grid from "./Grid.js"
-import { shape } from "prop-types"
 
 
 
@@ -161,8 +160,6 @@ function get_state_after_hold(before_state){
     return after_state
 }
 
-
-
 function BestWays(props){
     const tetris = props.tetris
     
@@ -229,7 +226,6 @@ function BestWays(props){
 
         while(queue.length > 0){
             const before_state = queue.shift();
-            debug(queue)
             
             let graph_key = encode_state_to_graph_key(before_state, graph);
 
@@ -319,6 +315,7 @@ function BestWays(props){
                 max_path_list.map(( path,idx ) => {
                     return (
                         <React.Fragment key={idx}>
+                            <h2 className="xx-large border-dark border-bottom mt-4">ルート 案{idx+1}.</h2>
                             <Path path={path} tetris={tetris}/>
                         </React.Fragment>
                     )
@@ -329,4 +326,24 @@ function BestWays(props){
     )
 }
 
-export default BestWays;
+
+function BestButton(props){
+    const tetris = props.tetris;
+    const graph = props.graph;
+
+
+    let render_best_way = function(){
+        let dom = document.querySelector("#bestway");
+        let el = (<BestWays tetris={tetris} graph={graph}/>)
+        ReactDOM.render(el, dom);
+    }
+
+    return (
+        <button className="btn btn-danger btn-lg btn-block border border-secondary mb-1 btn-shadow-2 x-large mt-4" onClick={render_best_way}>
+            ルート案表示
+        </button>
+    )
+}
+
+
+export default BestButton;
