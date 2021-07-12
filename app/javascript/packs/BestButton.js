@@ -28,15 +28,19 @@ function Path(props){
         }
 
         //4x3のmini_grid_infoの情報を反映
-        let is_dropping = false; //ドロップ中の描画かどうかのフラグ
+        let full_exist = false;
+        let mino_exist = false;
         for(let dy=0; dy<4; dy++){
             for(let dx=0; dx<4; dx++){
                 grid_info[16+dy][3+dx] = mini_grid_info[dy][dx];
-                if(mini_grid_info[dy][dx] != "full" && mini_grid_info[dy][dx] != "empty"){
-                    is_dropping = true;
+                if(mini_grid_info[dy][dx] == "full"){
+                    full_exist = true;
+                }else if(mini_grid_info[dy][dx] != "empty"){
+                    mino_exist = true;
                 }
             }
         }
+        let is_dropping = full_exist && mino_exist; //ドロップ中の描画かどうかのフラグ
 
         //ミノの描画
         const active_mino_position_x = (active_mino_type=="O") ? 4 : 3; 
