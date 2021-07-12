@@ -341,7 +341,7 @@ function BestButton(props){
 
     return (
         <button className="btn btn-danger btn-lg btn-block border border-secondary mb-1 btn-shadow-2 x-large mt-4" onClick={render_best_way}>
-            ルート案表示
+            ルート案の表示
         </button>
     )
 }
