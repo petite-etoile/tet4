@@ -240,15 +240,17 @@ function BestWays(props){
                         if(move_from[JSON.stringify(mid_state)]== null){
                             move_from[JSON.stringify(mid_state)]= [JSON.parse(JSON.stringify(before_state))];
                         }else{
-                            // move_from[JSON.stringify(mid_state)]= [JSON.parse(JSON.stringify(before_state))];
+                            // move_from[JSON.stringify(mid_state)].push(JSON.parse(JSON.stringify(before_state)));
                         }
                         
                         const after_state = get_state_after_drop(before_state, to[0]);
                         if(move_from[JSON.stringify(after_state)] == null){
                             move_from[JSON.stringify(after_state)] = [JSON.parse(JSON.stringify(mid_state))];
+                            queue.push(JSON.parse(JSON.stringify(after_state)));
+                        }else{
+                            // move_from[JSON.stringify(after_state)].push(JSON.parse(JSON.stringify(mid_state)));
                         }
 
-                        queue.push(JSON.parse(JSON.stringify(after_state)));
                     }
                 }
 
@@ -256,9 +258,11 @@ function BestWays(props){
                     const after_state = get_state_after_hold(before_state);
                     if(move_from[JSON.stringify(after_state)] == null){
                         move_from[JSON.stringify(after_state)] = [JSON.parse(JSON.stringify(before_state))];
+                        queue.push(JSON.parse(JSON.stringify(after_state)));
+                    }else{
+                        // move_from[JSON.stringify(after_state)].push(JSON.parse(JSON.stringify(before_state)));
                     }
 
-                    queue.push(JSON.parse(JSON.stringify(after_state)));
                 }
             }
 
@@ -300,9 +304,7 @@ function BestWays(props){
         });
 
         for(const leaf_state of leaf_list){
-            debug(leaf_state)
             rec([leaf_state]);
-            // break;
         }
 
         return path_list;
