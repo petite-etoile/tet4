@@ -27,7 +27,7 @@ let render_grid = function(){
     let el=( <Grid grid_info={tetris.grid_info} />);
     ReactDOM.render(el, dom);
 }
-
+    
 let render_hold = function(){
     let dom = document.getElementById('hold');
     let el=( <Hold hold={tetris.state.hold_mino_type} tetris={tetris}/> );
@@ -54,7 +54,14 @@ let render_record_form = function(cnt){
     let dom = document.querySelector("#record-form")
     let el;
     if(tetris.record_enabled){
-        el = <Form ren_cnt={cnt}　tetris={tetris} render_record_form={render_record_form}/>
+        debug("tetris.matta_cnt" + tetris.matta_cnt)
+        if(tetris.matta_cnt >= 5){
+            el = <div className="non-record-message large alert alert-primary "> 「待った」を5回以上使ったのでランキングに登録できません. </div>
+        }else if(tetris.used_best_button){
+            el = <div className="non-record-message large alert alert-primary "> ルート案の表示をしたのでランキングに登録できません. </div>
+        }else{
+            el = <Form ren_cnt={cnt}　tetris={tetris} render_record_form={render_record_form}/>
+        }
     }else if(tetris.is_gameover){
         if(tetris.state.ren_cnt >= tetris.need_score){
             el = <div className="record-message large alert alert-success"> 登録しました. </div>

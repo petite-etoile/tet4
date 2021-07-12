@@ -325,11 +325,13 @@ function BestWays(props){
 function BestButton(props){
     const tetris = props.tetris;
     const graph = props.graph;
+    debug(tetris.state.ren_cnt)
 
 
     let render_best_way = function(){
         let dom = document.querySelector("#bestway");
         let el = (<BestWays tetris={tetris} graph={graph}/>)
+    tetris.used_best_button = true;
         ReactDOM.render(el, dom);
     }
 

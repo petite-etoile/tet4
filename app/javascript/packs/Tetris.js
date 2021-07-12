@@ -40,6 +40,8 @@ class Tetris{
         this.record_enabled = false;
         this.init_grid_info()
         this.update_mino()
+        this.matta_cnt = 0;
+        this.used_best_button = false;
 
     }
 
@@ -370,19 +372,13 @@ class Tetris{
 
         //各行の, 埋まった/埋まってない
         let completed_info = this.get_completed_lines_info();
-        debug(this.grid_info)
-        debug(completed_info)
         
         //ラインが消えたら, 描画する. 
         for(let h=0; h<this.GRID_HEIGHT; h++){
             if(completed_info[h]){
-                debug(h+"列が消えた")
                 for(let w=0; w<this.GRID_WIDTH; w++){
-                    debug(w)
                     this.grid_info[h][w] = "completed";
-                    debug(this.grid_info[h])
                 }
-                debug(this.grid_info)
             }
         }
 
@@ -478,6 +474,7 @@ class Tetris{
         }else{
             this.record_enabled = false;
         }
+        debug(this.matta_cnt)
         debug("GAME OVER");
     }
 
@@ -494,6 +491,7 @@ class Tetris{
             }
         }
 
+        this.state.mini_grid_info = before_state.mini_grid_info;
         this.state.ren_cnt = before_state.ren_cnt;
         this.state.hold_mino_type = before_state.hold_mino_type;
         this.state.holdable = before_state.holdable;
@@ -504,6 +502,7 @@ class Tetris{
         if(this.history.length < 2){
             return;
         }
+        this.matta_cnt++;
         this.history.pop(); //最後の履歴を削除
         this.restore_to_before_state(this.history[this.history.length - 1]);
         this.is_gameover = false;
