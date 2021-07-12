@@ -269,7 +269,7 @@ function BestWays(props){
                     max_shape_score = shape_score;
                     leaf_list = [before_state];
                 }else if(max_ren_cnt == before_state.ren_cnt){
-                    if(max_shape_score > shape_score){
+                    if(max_shape_score < shape_score){
                         max_shape_score = shape_score;
                         leaf_list = [before_state];
                     }else if(max_shape_score == shape_score){
@@ -284,11 +284,6 @@ function BestWays(props){
         const rec = ((path) => {
             const after_state = path[path.length-1];
             if(move_from[JSON.stringify(after_state)]){
-                // debug(" ")
-                // debug((after_state))
-                // debug("⬇️")
-                // debug(move_from[JSON.stringify(after_state)])
-                 
                 for(const before_state of move_from[JSON.stringify(after_state)]){
                     path.push(JSON.parse(JSON.stringify(before_state)));
                     rec(path);
