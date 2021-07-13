@@ -7,7 +7,7 @@
             <%= button_to("▲", {action:"ranking"}, {class:"float-right bg-dark border border-dark #{@sort_for=="name asc" ? "text-danger" : "text-info"}", style:"font-size:small", method:"get", params:{sort_for: "name asc"}})%>
         </th>
         <th>
-            <div class="float-left" style="margin-left:30%;">スコア</div>
+            <div class="float-left" style="margin-left:20%;">スコア</div>
             <%= button_to("▼", {action:"ranking"}, {class:"float-right bg-dark border border-dark #{@sort_for=="score desc" ? "text-danger" : "text-info"}", style:"font-size:small", method:"get", params:{sort_for: "score desc"}})%>
             <%= button_to("▲", {action:"ranking"}, {class:"float-right bg-dark border border-dark #{@sort_for=="score asc" ? "text-danger" : "text-info"}", style:"font-size:small", method:"get", params:{sort_for: "score asc"}})%>
         </th>
@@ -15,7 +15,6 @@
             <div class="float-left" style="margin-left:45%;">日時</div>
             <%= button_to("▼", {action:"ranking"}, {class:"float-right bg-dark border border-dark #{@sort_for=="created_at desc" ? "text-danger" : "text-info"}", style:"font-size:small", method:"get", params:{sort_for: "created_at desc"}})%>
             <%= button_to("▲", {action:"ranking"}, {class:"float-right bg-dark border border-dark #{@sort_for=="created_at asc" ? "text-danger" : "text-info"}", style:"font-size:small", method:"get", params:{sort_for: "created_at asc"}})%>
-            
         </th> 
     </thead>
 
