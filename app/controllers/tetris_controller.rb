@@ -58,14 +58,30 @@ class TetrisController < ApplicationController
       scores.append(obj.score)
     end
 
-    scores.uniq!()
+    scores.sort!
     p scores
+    @data.each_with_index do |obj, idx|
+      p obj.score
+      @rank_for_data[idx] = scores.size - bisect_right(scores, obj.score) 
+    end
+    
 
+  end
 
+  def bisect_right(list, x)
+    left = 0
+    right = list.size()
 
+    while right - left > 1
+      mid = (right+left)/2
+      if(x >= list[mid])
+        left = mid
+      else
+        right = mid
+      end
+    end
 
-
-    p @color_for_data
+    return left
   end
   
   def add_record
@@ -118,12 +134,12 @@ class TetrisController < ApplicationController
 
   end
 
-  def delete_access_all
-    AccessCounter.destroy_all();
-    puts "\n\nafter"
-      AccessCounter.all.each do |obj|
-        puts "#{obj.url} #{obj.cnt}"
-      end
-  end
+  # def delete_access_all
+  #   AccessCounter.destroy_all();
+  #   puts "\n\nafter"
+  #     AccessCounter.all.each do |obj|
+  #       puts "#{obj.url} #{obj.cnt}"
+  #     end
+  # end
 
 end

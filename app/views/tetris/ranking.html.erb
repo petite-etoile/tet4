@@ -2,6 +2,9 @@
 <table class="table table-bordered large table-striped border-top border mt-4 w-75 " style="margin:0 auto;">
     <thead class=" text-center table-dark">
         <th>
+            順位
+        </th>
+        <th>
             <div class="float-left" style="margin-left:45%;">名前</div>
             <%= button_to("▼", {action:"ranking"}, {class:"float-right bg-dark border border-dark #{@sort_for=="name desc" ? "text-danger" : "text-info"}", style:"font-size:small", method:"get", params:{sort_for: "name desc"}})%>
             <%= button_to("▲", {action:"ranking"}, {class:"float-right bg-dark border border-dark #{@sort_for=="name asc" ? "text-danger" : "text-info"}", style:"font-size:small", method:"get", params:{sort_for: "name asc"}})%>
@@ -17,10 +20,11 @@
             <%= button_to("▲", {action:"ranking"}, {class:"float-right bg-dark border border-dark #{@sort_for=="created_at asc" ? "text-danger" : "text-info"}", style:"font-size:small", method:"get", params:{sort_for: "created_at asc"}})%>
         </th> 
     </thead>
-    
+
     <tbody class="table-hover table light">
         <% @data.each_with_index do |obj, idx| %>
             <tr>
+                <td class="text-right "> <%= @rank_for_data[idx] %> </td>
                 <td class="text-center "> <%= obj.name %> </td>
                 <td class="text-right  <%= @color_for_data[idx]%>"> <%= "#{obj.score}REN" %> </td>
                 <td class="text-center "> <%= obj.created_at %> </td>
