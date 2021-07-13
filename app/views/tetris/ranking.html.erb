@@ -1,7 +1,22 @@
 <h1 class="xx-large border-bottom border-dark pb-1">Ranking</h1>
-<table class="table table-bordered large table-striped border-top border mt-4">
+<table class="table table-bordered large table-striped border-top border mt-4 w-75 " style="margin:0 auto;">
     <thead class=" text-center table-dark">
-        <th>名前</th> <th>スコア</th> <th>日時</th> 
+        <th>
+            <div class="float-left" style="margin-left:45%;">名前</div>
+            <%= button_to("▼", {action:"ranking"}, {class:"float-right bg-dark border border-dark #{@sort_for=="name desc" ? "text-danger" : "text-info"}", style:"font-size:small", method:"get", params:{sort_for: "name desc"}})%>
+            <%= button_to("▲", {action:"ranking"}, {class:"float-right bg-dark border border-dark #{@sort_for=="name asc" ? "text-danger" : "text-info"}", style:"font-size:small", method:"get", params:{sort_for: "name asc"}})%>
+        </th>
+        <th>
+            <div class="float-left" style="margin-left:30%;">スコア</div>
+            <%= button_to("▼", {action:"ranking"}, {class:"float-right bg-dark border border-dark #{@sort_for=="score desc" ? "text-danger" : "text-info"}", style:"font-size:small", method:"get", params:{sort_for: "score desc"}})%>
+            <%= button_to("▲", {action:"ranking"}, {class:"float-right bg-dark border border-dark #{@sort_for=="score asc" ? "text-danger" : "text-info"}", style:"font-size:small", method:"get", params:{sort_for: "score asc"}})%>
+        </th>
+        <th style="">
+            <div class="float-left" style="margin-left:45%;">日時</div>
+            <%= button_to("▼", {action:"ranking"}, {class:"float-right bg-dark border border-dark #{@sort_for=="created_at desc" ? "text-danger" : "text-info"}", style:"font-size:small", method:"get", params:{sort_for: "created_at desc"}})%>
+            <%= button_to("▲", {action:"ranking"}, {class:"float-right bg-dark border border-dark #{@sort_for=="created_at asc" ? "text-danger" : "text-info"}", style:"font-size:small", method:"get", params:{sort_for: "created_at asc"}})%>
+            
+        </th> 
     </thead>
 
     <tbody class="table-hover table light">

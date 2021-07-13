@@ -20,7 +20,13 @@ class TetrisController < ApplicationController
 
   def ranking
     @page = "ranking"
-    @data = Ranking.all.order("score desc")
+    if params[:sort_for]
+      @sort_for = params[:sort_for]
+    else
+      @sort_for = "score desc"
+    end
+    @data = Ranking.all.order(@sort_for)
+    
     colors = ["gray", "brown", "green", "cyan", "blue", "yellow", "orange", "red"]
     @color_for_data = Array.new(@data.size(), "")
     
