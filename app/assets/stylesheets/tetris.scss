@@ -2,8 +2,14 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+.user{
+    background-color: transparent;
+    border: none !important;
+}
 
-
+.display-none{
+    display: none;
+}
 
 $cell-size: 30px;
 $grid-width: $cell-size * 10; //grid-size = 300px

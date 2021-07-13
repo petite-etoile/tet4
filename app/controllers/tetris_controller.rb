@@ -22,14 +22,27 @@ class TetrisController < ApplicationController
   def ranking
     @page = "ranking"
 
+    scores = []
+    Ranking.all.each do |obj|
+      scores.append(obj.score)
+    end
 
 
+    # 表示するデータの絞り込み
+    if(params[:user] and params[:user]!="")
+      target_data = Ranking.where("name like ?", params[:user])
+      @user = params[:user]
+    else
+      target_data = Ranking.all
+    end
+
+    # ソート方法
     if params[:sort_for]
       @sort_for = params[:sort_for]
     else
       @sort_for = "score desc"
     end
-    @data = Ranking.all.order(@sort_for)
+    @data = target_data.order(@sort_for)
 
 
     # 色を決める
@@ -53,10 +66,7 @@ class TetrisController < ApplicationController
 
     # 順位を決める
     @rank_for_data = Array.new(@data.size(), -1);
-    scores = []
-    @data.each do |obj|
-      scores.append(obj.score)
-    end
+    
 
     scores.sort!
     p scores
