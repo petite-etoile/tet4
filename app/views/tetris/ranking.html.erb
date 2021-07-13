@@ -17,7 +17,7 @@
             <%= button_to("▲", {action:"ranking"}, {class:"float-right bg-dark border border-dark #{@sort_for=="created_at asc" ? "text-danger" : "text-info"}", style:"font-size:small", method:"get", params:{sort_for: "created_at asc"}})%>
         </th> 
     </thead>
-
+    
     <tbody class="table-hover table light">
         <% @data.each_with_index do |obj, idx| %>
             <tr>

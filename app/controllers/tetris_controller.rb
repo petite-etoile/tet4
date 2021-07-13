@@ -6,6 +6,7 @@ class TetrisController < ApplicationController
     @page = "index"
     @access_count = 0
     AccessCounter.all.each do |obj|
+      p obj
       @access_count += obj.cnt;
     end
   end
@@ -20,13 +21,18 @@ class TetrisController < ApplicationController
 
   def ranking
     @page = "ranking"
+
+
+
     if params[:sort_for]
       @sort_for = params[:sort_for]
     else
       @sort_for = "score desc"
     end
     @data = Ranking.all.order(@sort_for)
-    
+
+
+    # 色を決める
     colors = ["gray", "brown", "green", "cyan", "blue", "yellow", "orange", "red"]
     @color_for_data = Array.new(@data.size(), "")
     
@@ -42,6 +48,22 @@ class TetrisController < ApplicationController
         @color_for_data[data_idx] = colors.last()
       end
     end
+
+
+
+    # 順位を決める
+    @rank_for_data = Array.new(@data.size(), -1);
+    scores = []
+    @data.each do |obj|
+      scores.append(obj.score)
+    end
+
+    scores.uniq!()
+    p scores
+
+
+
+
 
     p @color_for_data
   end
@@ -69,6 +91,7 @@ class TetrisController < ApplicationController
     p params
 
     obj = AccessCounter.find_by(url: params[:url])
+    puts "url:#{params[:url]}"
     if(obj  == nil )
       obj = AccessCounter.new(url: params[:url], cnt: 1)
       if obj.save()
@@ -76,9 +99,16 @@ class TetrisController < ApplicationController
       else
         p "新しいrefを登録失敗"
       end
-      
     else
-      AccessCounter.update(url: params[:url], cnt: obj.cnt + 1)
+      puts "\n\nbefore"
+      AccessCounter.all.each do |obj|
+        puts "#{obj.url} #{obj.cnt}"
+      end
+      obj.update(url: params[:url], cnt: obj.cnt + 1)
+      puts "\n\nafter"
+      AccessCounter.all.each do |obj|
+        puts "#{obj.url} #{obj.cnt}"
+      end
     end
 
     p "アクセスデータ"
@@ -88,7 +118,12 @@ class TetrisController < ApplicationController
 
   end
 
-  def record_params
-    return params.require(:ranking).permit(:name, :score)
+  def delete_access_all
+    AccessCounter.destroy_all();
+    puts "\n\nafter"
+      AccessCounter.all.each do |obj|
+        puts "#{obj.url} #{obj.cnt}"
+      end
   end
+
 end
