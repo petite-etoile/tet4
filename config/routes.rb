@@ -10,4 +10,8 @@ Rails.application.routes.draw do
   post "add_record" => "tetris#add_record"
   post "count_access" => "tetris#count_access"
   root "tetris#index"
+
+  get "all" => "tetris#all"
+  delete "del" => "tetris#delete"
+
 end

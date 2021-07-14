@@ -2,6 +2,24 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+//ホーム
+.home{
+    margin-left:5%;
+    margin-right:5%;
+}
+
+.Q{
+    margin-top:50px;
+    color: blue;
+    font-size: x-large;
+}
+
+.A{
+    color:red;
+    font-size: x-large;
+}
+
+
 // ランキング
 .user{
     background-color: transparent;
