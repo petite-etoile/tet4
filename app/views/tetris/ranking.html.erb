@@ -1,7 +1,7 @@
 <h1 class="xx-large border-bottom border-dark pb-1">Ranking</h1>
 
 <%= form_tag({action:"ranking"}, {method:"get", class:"form-flaoting"}) do%>
-    <%= text_field_tag("user", @user, {class:"form-control w-25 float-left border-secondary", style:"margin-left:55%;", "data-toggle"=>"tooltip", "data-placement"=>"top", title:"ワイルドカードを使用できます\n%:任意の文字列", placeholder: "名前"}) %>
+    <%= text_field_tag("user", @user, {class:"form-control w-25 float-left border-secondary", style:"margin-left:55%;", "data-toggle"=>"tooltip", "data-placement"=>"top", title:"ワイルドカードを使用できます\n%:任意の文字列", placeholder: "名前で検索"}) %>
     <%= text_field_tag("sort_for", @sort_for, {class:"display-none float-left", style:"margin:0 auto;"}) %>
     <%= submit_tag("検索", class:"btn  border-secondary ml-1")%>
 <% end %>
@@ -41,6 +41,12 @@
         <% end %>
     </tbody>
 </table>
+
+<div class="page-wrapper">
+    <%(1..(Ranking.count + 99)/100).each do |page|%>
+    <%= button_to(page, {action:"ranking"}, {class:(page==@page ? "active-page" : "inactive-page"), method:"get", params:{user: @user, sort_for: @sort_for, page: page}})%>
+    <%end%>
+</div>
 
 <%= javascript_pack_tag( "access_logger" )%>
 

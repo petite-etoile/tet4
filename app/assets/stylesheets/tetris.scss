@@ -2,6 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+// ランキング
 .user{
     background-color: transparent;
     border: none !important;
@@ -11,6 +12,37 @@
     display: none;
 }
 
+.page-wrapper{
+    width:75%;
+    height: 100px;
+    margin:30px auto 0 auto;
+}
+
+.active-page{
+    width: 30px;
+    height: 30px;
+    background-color: dodgerblue;
+    color:white;
+    float:left;
+    border: solid gray 1px;
+    text-align: center;
+    margin-left: -1px;
+    cursor: pointer;
+}
+
+.inactive-page{
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    color :dodgerblue;
+    float:left;
+    border: solid gray 1px;
+    text-align: center;
+    margin-left: -1px;
+    cursor: pointer;
+}
+
+//テトリス
 $cell-size: 30px;
 $grid-width: $cell-size * 10; //grid-size = 300px
 $tetris-height: $cell-size * 25;

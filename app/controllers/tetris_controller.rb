@@ -28,7 +28,7 @@ class TetrisController < ApplicationController
     end
 
 
-    # 表示するデータの絞り込み
+    # 表示するデータの絞り込み(where)
     if(params[:user] and params[:user]!="")
       target_data = Ranking.where("name like ?", params[:user])
       @user = params[:user]
@@ -43,6 +43,15 @@ class TetrisController < ApplicationController
       @sort_for = "score desc"
     end
     @data = target_data.order(@sort_for)
+
+    # 表示するデータの絞り込み(page)
+    data_num_of_page = 100
+    if(params[:page])
+      @page = params[:page].to_i
+    else
+      @page = 1
+    end
+    @data = @data.slice(data_num_of_page * (@page - 1), data_num_of_page * @page)
 
 
     # 色を決める
