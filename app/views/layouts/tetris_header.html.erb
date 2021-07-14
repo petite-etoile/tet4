@@ -9,16 +9,16 @@
     </button> %>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-            <li class="nav-item <%=@page == "index" ? "active" : ""%>">
+            <li class="nav-item <%=@url == "index" ? "active" : ""%>">
                 <a class="nav-link" href="/">ホーム <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item <%=@page == "select_mode" ? "active" : ""%>">
+            <li class="nav-item <%=@url == "select_mode" ? "active" : ""%>">
                 <a class="nav-link" href="/select_mode">選択モード</a>
             </li>
-            <li class="nav-item <%=@page == "operate_mode" ? "active" : ""%>">
+            <li class="nav-item <%=@url == "operate_mode" ? "active" : ""%>">
                 <a class="nav-link" href="/operate_mode">操作モード</a>
             </li>
-            <li class="nav-item <%=@page == "ranking" ? "active" : ""%>">
+            <li class="nav-item <%=@url == "ranking" ? "active" : ""%>">
                 <a class="nav-link" href="/ranking">ランキング</a>
             </li>
         </ul>
@@ -28,10 +28,10 @@
 </nav>
 
 <div class="for-small mb-4">
-    <a class="btn btn-<%=@page == "index" ? "secondary" : "dark"%>", href="/"> ホーム </a>
-    <a class="btn btn-<%=@page == "select_mode" ? "secondary" : "dark"%>", href="/select_mode"> 選択モード </a>
-    <a class="btn btn-<%=@page == "operate_mode" ? "secondary" : "dark"%>", href="/operate_mode"> 操作モード </a>
-    <a class="btn btn-<%=@page == "ranking" ? "secondary" : "dark"%>", href="/ranking"> ランキング </a>
+    <a class="btn btn-<%=@url == "index" ? "secondary" : "dark"%>", href="/"> ホーム </a>
+    <a class="btn btn-<%=@url == "select_mode" ? "secondary" : "dark"%>", href="/select_mode"> 選択モード </a>
+    <a class="btn btn-<%=@url == "operate_mode" ? "secondary" : "dark"%>", href="/operate_mode"> 操作モード </a>
+    <a class="btn btn-<%=@url == "ranking" ? "secondary" : "dark"%>", href="/ranking"> ランキング </a>
 </div>
 
 

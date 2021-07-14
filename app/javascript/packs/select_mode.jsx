@@ -157,3 +157,5 @@ let second_render = async function(){
 
 //初期描画
 render_all();
+
+document.onkeydown = event =>{} 

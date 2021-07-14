@@ -3,7 +3,7 @@ class TetrisController < ApplicationController
   protect_from_forgery with: :null_session
   skip_before_action :verify_authenticity_token
   def index
-    @page = "index"
+    @url = "index"
     @access_count = 0
     AccessCounter.all.each do |obj|
       p obj
@@ -12,15 +12,15 @@ class TetrisController < ApplicationController
   end
 
   def select_mode
-    @page = "select_mode"
+    @url = "select_mode"
   end
 
   def operate_mode
-    @page = "operate_mode"
+    @url = "operate_mode"
   end
 
   def ranking
-    @page = "ranking"
+    @url = "ranking"
 
     scores = []
     Ranking.all.each do |obj|
