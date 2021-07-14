@@ -269,7 +269,7 @@ class Graph{
             [ this.fill_empty(".#...##."), this.fill_empty(".#...##..#..") ] 
         ]
         this.edge[this.before_shape + "J"] = [ 
-            [ this.fill_empty("##...#.."), this.fill_empty("##...#...#..") ] 
+            [ this.fill_empty(".##..#.."), this.fill_empty(".##..#...#..") ] 
         ]
         this.edge[this.before_shape + "L"] = [ 
             [ this.fill_empty(".###"), this.fill_empty(".###.#..") ],
