@@ -25,7 +25,6 @@ import debug from "./debug.js"
 let tetris = new Tetris();
 let graph = new Graph();
 
-debug("ここですか？")
 tetris.initialize()
 
 let render_grid = function(){
@@ -147,6 +146,7 @@ render_all();
 
 //テトリスの操作
 document.onkeydown = event =>{
+    
     const A_code = 65;
     const D_code = 68;
     const S_code = 83;
@@ -158,6 +158,7 @@ document.onkeydown = event =>{
     const down_code = 40;
 
     const space_code = 32;
+    // const shift_code = 16;
 
 
     if( [A_code, D_code, S_code, W_code, left_code, up_code, right_code, down_code, space_code].includes(event.keyCode) ){
@@ -183,5 +184,3 @@ document.onkeydown = event =>{
     }
 };
 
-
-　z
