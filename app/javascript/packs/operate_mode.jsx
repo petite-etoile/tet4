@@ -24,6 +24,7 @@ import BestButton from "./BestButton.js"
 let tetris = new Tetris();
 let graph = new Graph();
 
+debug("ここですか？")
 tetris.initialize()
 
 let render_grid = function(){
@@ -182,4 +183,4 @@ document.onkeydown = event =>{
 };
 
 
-　
+　z
