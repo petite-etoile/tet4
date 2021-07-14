@@ -11,6 +11,7 @@ import ResetButton from "./ResetButton.js"
 import MattaButton from "./MattaButton.js"
 import Graph from "./Graph.js"
 import BestButton from "./BestButton.js"
+import debug from "./debug.js"
 
 
 
