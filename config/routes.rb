@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   post "count_access" => "tetris#count_access"
   root "tetris#index"
 
-  get "all" => "tetris#all"
-  delete "del" => "tetris#delete"
+  # get "all" => "tetris#all"
+  # delete "del" => "tetris#delete"
 
 end

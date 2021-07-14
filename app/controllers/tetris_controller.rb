@@ -161,15 +161,15 @@ class TetrisController < ApplicationController
   #     end
   # end
 
-  def all
-    # return json:Ranking.all
-    render json:Ranking.all
-    # render json:{"a"=>"a"}
-  end
+  # def all
+  #   # return json:Ranking.all
+  #   render json:Ranking.all
+  #   # render json:{"a"=>"a"}
+  # end
 
-  def delete
-    obj = Ranking.find(params[:id])
-    obj.destroy();
-  end
+  # def delete
+  #   obj = Ranking.find(params[:id])
+  #   obj.destroy();
+  # end
 
 end
