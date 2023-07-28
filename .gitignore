@@ -77,3 +77,6 @@
 
 # Ignore public/uploads directory
 **/public/uploads
+
+# DS_Store
+**/.DS_Store
