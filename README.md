@@ -5,7 +5,7 @@
 # How To Play
 
 ```
-$ git clone git@github.com:petite-etoile/tet4.git -b develop/rails
+$ git clone git@github.com:petite-etoile/tet4.git -b dev/rails
 $ cd tet4
 $ docker compose up -d
 $ open http://localhost:3000
