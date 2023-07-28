@@ -25,7 +25,7 @@
 **/*.orig
 
 # Ignore rerun.txt
-**/rerun.txt
+**/rerun.txt/
 
 # Ignore pickle-email html files
 **/pickle-email-*.html
