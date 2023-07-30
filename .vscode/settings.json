@@ -1,0 +1,15 @@
+{
+  "css.validate": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "javascript.validate.enable": false,
+  "scss.validate": false,
+  "eslint.workingDirectories": ["./app"],
+  "stylelint.validate": ["css", "scss"],
+  "typescript.validate.enable": false
+}

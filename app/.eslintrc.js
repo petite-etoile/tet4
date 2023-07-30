@@ -1,23 +1,23 @@
-{
+module.exports = {
   // ルールをまとめて追加
-  "extends": [
+  extends: [
     "next/core-web-vitals",
     "plugin:import/recommended",
     "plugin:import/warnings",
-    "prettier"
+    "prettier",
   ],
   // 個別ルール
-  "rules": {
-    // importするファイルをアルファベット順に自動で並び替える
+  rules: {
     "import/order": [
+      // importするファイルをアルファベット順に自動で並び替える
       "error",
       {
-        "alphabetize": {
-          "order": "asc"
-        }
-      }
+        alphabetize: {
+          order: "asc",
+        },
+      },
     ],
     // importのパスにエイリアス（'@/components/xxxxx'）を使うとエラーになるのでそれを防ぐ
-    "import/no-unresolved": "off"
-  }
-}
+    "import/no-unresolved": "off",
+  },
+};
