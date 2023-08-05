@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: sh -c "rails db:migrate RAILS_ENV=development && rails webpacker:compile && rails server -b 0.0.0.0"
+    command: sh -c "rails db:setup RAILS_ENV=development && rails webpacker:compile && rails server -b 0.0.0.0"
     ports:
       - 3000:3000
     tty: true
