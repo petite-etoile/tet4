@@ -13,6 +13,7 @@ import { displayGrid } from '@/utils/Tetris/DebugUtils.js';
 /**
  * テトリスのゲームを表すコンポーネント.
  * マニュアルモード, ガイドモードの両方で使用される.
+ * @module Tetris
  * @returns {JSX.Element} テトリスのゲーム
  */
 export default function Tetris() {
@@ -41,6 +42,7 @@ export default function Tetris() {
 
 /**
  * タネ3の中開け4RENの初期盤面を生成する.
+ * @memberof module:Tetris
  * @returns {string[][]} 初期盤面
  */
 function generateInitialGrid() {
@@ -56,9 +58,10 @@ function generateInitialGrid() {
 /**
  * 真ん中の4列を空, それ以外が埋まっているような盤面を表す二次元配列を返す.
  *
- * @param {number} height
- * @param {number} width
- * @returns {string[][]} 真ん中の4列を空, それ以外が埋まっているような盤面
+ * @memberof module:Tetris
+ * @param {number} height 盤面の縦マス数
+ * @param {number} width  盤面の横マス数
+ * @returns {string[][]}  真ん中の4列を空, それ以外が埋まっているような盤面
  */
 function generateBaseGrid(height, width) {
   let grid = [];
@@ -78,8 +81,9 @@ function generateBaseGrid(height, width) {
 
 /**
  * 3つのタネをランダムに配置する.
- * ただし, 3つのタネのパターンは6種類から選ばれる.
+ * ただし, 3つのタネの組合せは6種類.
  *
+ * @memberof module:Tetris
  * @param {string[][]} grid 3つのタネを配置する前の盤面を表す二次元配列
  */
 function setResidualsToGrid(grid) {
