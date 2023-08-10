@@ -1,13 +1,14 @@
 import { Asap_Condensed } from 'next/font/google';
 import React, { useEffect, useState } from 'react';
 import {
-  TETROMINOS,
-  GRID_HEIGHT,
-  GRID_WIDTH,
-  MINO_SHAPES,
-  MINO,
-  RESIDUALS_CANDIDATES,
+  TETROMINOS, // 1巡分の7種のミノ (NEXT補充のために使う)
+  GRID_HEIGHT, // 盤面の縦マス数
+  GRID_WIDTH, // 盤面の横マス数
+  MINO_SHAPES, // 7種のミノの形
+  MINO, // ミノの種類 (enumのように使う)
+  RESIDUALS_CANDIDATES, // タネ3の候補
 } from '@/const/Tetris/TetrisVariables.js';
+import Grid from '@/features/Tetris/components/Grid.jsx';
 import { displayGrid } from '@/utils/Tetris/DebugUtils.js';
 
 /**
@@ -37,7 +38,7 @@ export default function Tetris() {
     displayGrid(grid);
   }, []);
 
-  return <></>;
+  return <Grid gridInfo={grid} />;
 }
 
 /**
