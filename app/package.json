@@ -7,14 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --dir src",
-    "lint:fix": "next lint --fix --dir src"
+    "lint:fix": "next lint --fix --dir src",
+    "generate-docs": "jsdoc -c jsdoc.json"
   },
   "dependencies": {
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
+    "jsdoc": "^4.0.2",
     "next": "13.4.12",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "sass": "^1.65.1"
   },
   "devDependencies": {
     "eslint-config-prettier": "^8.9.0",

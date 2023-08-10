@@ -1,0 +1,12 @@
+@import 'tetrisVariables';
+
+.grid {
+  width: $grid-width;
+  float: left;
+  margin-left: 60px;
+  margin-top: 30px;
+}
+
+.row {
+  clear: both;
+}

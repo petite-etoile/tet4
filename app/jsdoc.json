@@ -1,0 +1,10 @@
+{
+  "source": {
+    "include": ["./src/features"], // ドキュメント化したいディレクトリを指定
+    "includePattern": ".+\\.jsx?$"
+  },
+  "opts": {
+    "destination": "./out/", // 出力先のディレクトリ
+    "recurse": true
+  }
+}
